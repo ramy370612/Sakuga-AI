@@ -7,7 +7,7 @@ const bookDataList = aozoraBookList as AozoraWork[];
 
 async function main(): Promise<void> {
   for (const bookData of bookDataList) {
-    await prismaClient.book.create({
+    await prismaClient.novel.create({
       data: {
         workId: bookData['作品ID'],
         title: bookData['作品名'],
