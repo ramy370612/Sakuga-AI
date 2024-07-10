@@ -1,7 +1,7 @@
 import { prismaClient } from 'service/prismaClient';
 
-import aozoraBookList from '../data/aozoraBookList.json';
 import type { AozoraWork } from 'api/@types/novel';
+import aozoraBookList from '../data/aozoraBookList.json';
 
 const bookDataList = aozoraBookList as AozoraWork[];
 
