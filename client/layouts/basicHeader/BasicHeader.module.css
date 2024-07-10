@@ -1,0 +1,46 @@
+.container {
+  position: sticky;
+  top: 0;
+  height: 60px;
+  background: #fff;
+  border-bottom: 1px solid var(--border-color-default);
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 24px;
+  margin: 0 auto;
+}
+
+.appName {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--font-color-default);
+  letter-spacing: 0.18em;
+}
+
+@media screen and (width <= 800px) {
+  .appName {
+    font-size: 16px;
+  }
+}
+
+.userBtn {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 12px;
+  margin-left: auto;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid var(--border-color-default);
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.userBtn:hover {
+  background: #f0f0f0;
+}
