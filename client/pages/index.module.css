@@ -33,3 +33,62 @@
   width: 50px;
   height: 30px;
 }
+
+.ranking {
+  position: absolute;
+  top: 220px;
+  left: 100px;
+  font-size: 40px;
+  background: linear-gradient(270deg, rgb(87 199 255) 0%, rgb(20 130 255) 40%, rgb(16 11 255) 80%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.workFirst,
+.workSecond,
+.workThird,
+.workForth,
+.workFifth {
+  position: absolute;
+  top: 350px;
+  font-size: 20px;
+}
+
+.workSixth,
+.workSeventh,
+.workEighth,
+.workNineth,
+.workTenth {
+  position: absolute;
+  bottom: 150px;
+  font-size: 20px;
+}
+
+.workFirst,
+.workSixth {
+  left: 100px;
+}
+
+.workSecond,
+.workSeventh {
+  left: 550px;
+}
+
+.workThird,
+.workEighth {
+  left: 1000px;
+}
+
+.workForth,
+.workNineth {
+  right: 600px;
+}
+
+.workFifth,
+.workTenth {
+  right: 100px;
+}
+
+.img {
+  position: relative;
+}
