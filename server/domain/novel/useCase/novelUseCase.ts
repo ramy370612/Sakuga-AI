@@ -12,6 +12,6 @@ export const novelUseCase = {
       const html = decode(Buffer.from(buffer), 'Shift_JIS');
       const $ = load(html);
 
-      return $('body').text();
+      return $('div.main_text').text();
     }),
 };
