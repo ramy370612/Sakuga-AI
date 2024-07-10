@@ -1,5 +1,5 @@
 import { defineController } from './$relay';
 
 export default defineController(() => ({
-  get: () => ({ status: 200, body: 'Good Moning' }),
+  get: () => ({ status: 200, body: '' }),
 }));

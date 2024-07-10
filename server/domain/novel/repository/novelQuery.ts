@@ -4,7 +4,7 @@ const getNovelUrlByWorkId = async (
   tx: Prisma.TransactionClient,
   workId: number,
 ): Promise<string | null> => {
-  const prismaNovel = await tx.book.findFirst({
+  const prismaNovel = await tx.novel.findFirst({
     where: { workId },
   });
   if (prismaNovel === null) return null;
