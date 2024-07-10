@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
+import styles from './index.module.css';
 
 const Home = () => {
   const router = useRouter();
@@ -26,17 +27,18 @@ const Home = () => {
   ];
   const urls = novels.map((novel) => `novel/${novel.id}`);
   return (
-    <>
+    <div className={styles.container}>
       <div>
-        <h1>Sakuga AI</h1>
+        <h1 className={styles.title}>Sakuga AI</h1>
         {searchParams.length > 0 && <p>Search: {searchParams.join(', ')}</p>}
         <input
+          className={styles.searchWindow}
           type="search"
           placeholder="作品検索"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
-        <button>検索</button>
+        <button className={styles.searchButton}>検索</button>
       </div>
       <label>ランキング</label>
       <div>
@@ -47,7 +49,7 @@ const Home = () => {
         <Link href={urls[0]}>吾輩は猫である</Link>
         <Link href={urls[0]}>山月記</Link>
       </div>
-    </>
+    </div>
   );
 };
 
