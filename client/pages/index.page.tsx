@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 const Home = () => {
   const router = useRouter();
-
+  const [searchInput, setSearchInput] = useState('');
   // `/?search=hoge` -> `['hoge']` のように、searchパラメータを配列で取得
   // 検索するキーワードをsearchパラメータとして保持し、それをもとに検索を行う
   const searchParams = useMemo(() => {
@@ -30,7 +30,12 @@ const Home = () => {
       <div>
         <h1>Sakuga AI</h1>
         {searchParams.length > 0 && <p>Search: {searchParams.join(', ')}</p>}
-        <input type="search" />
+        <input
+          type="search"
+          placeholder="作品検索"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+        />
         <button>検索</button>
       </div>
       <label>ランキング</label>
