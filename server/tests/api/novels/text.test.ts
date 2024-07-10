@@ -15,12 +15,10 @@ test(GET(apiClient.novels.text), async () => {
   const res = await apiClient.novels.text.$get({ query: { workId: 1567 } });
   //書き出しが一致することを確認
   expect(res).toContain('走れメロス');
-});
 
-test(GET(apiClient.novels.text), async () => {
-  const res = await apiClient.novels.text.$get({ query: { workId: 15681231 } });
+  const nullRes = await apiClient.novels.text.$get({ query: { workId: 999999999 } });
   //存在しないworkIdの場合、nullが返ることを確認
-  expect(res).toBeNull();
+  expect(nullRes).toBeNull();
 });
 
 test(GET(apiClient.novels), async () => {
