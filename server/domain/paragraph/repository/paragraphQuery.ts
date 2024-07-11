@@ -25,6 +25,19 @@ const listByNovelId = async (
   return Promise.all(prismaParagraphs.map(toEntity));
 };
 
+const listByNovelWorkId = async (
+  tx: Prisma.TransactionClient,
+  workId: number,
+): Promise<ParagraphEntity[]> => {
+  const prismaParagraphs = await tx.paragraph.findMany({
+    where: { Novel: { workId } },
+    orderBy: { index: 'asc' },
+    include: { Novel: true },
+  });
+  return Promise.all(prismaParagraphs.map(toEntity));
+};
+
 export const paragraphQuery = {
   listByNovelId,
+  listByNovelWorkId,
 };
