@@ -107,7 +107,11 @@ const Home = () => {
       <label className={styles.ranking}>ランキング</label>
       <div>
         {novels.map((novel, index) => (
-          <Link className={`styles.work${index + 1}`} href={urls[index]} key={novel.id}>
+          <Link
+            className={styles[`work${index + 1}` as keyof typeof styles]}
+            href={urls[index]}
+            key={novel.id}
+          >
             <img src={novel.imageUrl} alt={novel.title} />
             {novel.title}
           </Link>
