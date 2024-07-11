@@ -39,56 +39,52 @@
   top: 220px;
   left: 100px;
   font-size: 40px;
-  background: linear-gradient(270deg, rgb(87 199 255) 0%, rgb(20 130 255) 40%, rgb(16 11 255) 80%);
+  background: linear-gradient(90deg, rgb(255 146 250) 0%, rgb(255 83 241) 40%, rgb(248 32 176) 80%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.workFirst,
-.workSecond,
-.workThird,
-.workForth,
-.workFifth {
+.work1,
+.work2,
+.work3,
+.work4,
+.work5 {
   position: absolute;
   top: 350px;
   font-size: 20px;
 }
 
-.workSixth,
-.workSeventh,
-.workEighth,
-.workNineth,
-.workTenth {
+.work6,
+.work7,
+.work8,
+.work9,
+.work10 {
   position: absolute;
   bottom: 150px;
   font-size: 20px;
 }
 
-.workFirst,
-.workSixth {
+.work1,
+.work6 {
   left: 100px;
 }
 
-.workSecond,
-.workSeventh {
+.work2,
+.work7 {
   left: 550px;
 }
 
-.workThird,
-.workEighth {
+.work3,
+.work8 {
   left: 1000px;
 }
 
-.workForth,
-.workNineth {
+.work4,
+.work9 {
   right: 600px;
 }
 
-.workFifth,
-.workTenth {
+.work5,
+.work10 {
   right: 100px;
-}
-
-.img {
-  position: relative;
 }
