@@ -54,12 +54,12 @@ const uploadToS3 = async (key: string, image: Blob): Promise<void> => {
 const paragraphToPrompt = async (paragraph: ParagraphEntity): Promise<string> => {
   const llm = new ChatOpenAI({
     temperature: 0.2,
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4o',
   });
   const parser = new StringOutputParser();
   const message = [
     new SystemMessage(
-      '以下の文章から画像生成用のプロンプトを生成して\n- 簡潔に状況を説明すること\n- プロンプトは1000字以内に収めること\nなお、与えられる文章は日本の文学作品である。',
+      '以下の文章から画像生成用のプロンプトを生成して\n- 簡潔に状況を説明すること\n- プロンプトは1000字以内に収めること',
     ),
     new HumanMessage(paragraph.paragraph),
   ];
@@ -100,6 +100,7 @@ export const paragraphCommand = {
             n: 1,
             model: 'dall-e-3',
             apiKey: OPENAI_API_KEY,
+            size: '1792x1024',
           });
           const imageURL = await dalle3Tool.invoke(prompt);
 
