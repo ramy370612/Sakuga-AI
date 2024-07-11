@@ -33,7 +33,7 @@ const Home = () => {
     return () => setNovelBody(null);
   }, [novelId, catchApiErr]);
 
-  if (isLoading) return <div className={styles.container}>Loading...</div>;
+  if (isLoading) return <div className={styles.loading}>Loading...</div>;
 
   return (
     <div>
