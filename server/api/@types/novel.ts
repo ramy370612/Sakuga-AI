@@ -1,14 +1,12 @@
 import type { EntityId } from './brandedId';
+import type { ParagraphEntity } from './paragraph';
 
 export type NovelBodyEntity = {
   id: EntityId['novel'];
   workId: number;
   title: string;
   authorName: string;
-  paragraphs: {
-    content: string;
-    imageUrl: string;
-  }[];
+  paragraphs: ParagraphEntity[];
   aozoraUrl: string;
 };
 
