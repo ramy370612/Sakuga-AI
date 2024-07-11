@@ -25,8 +25,6 @@ const getNovelsBytotalAccessCount = async (
 
   if (prismaNovels.length === 0) return [];
 
-  console.log(prismaNovels);
-
   return prismaNovels.map((novel, index) => ({
     ...novel,
     rank: index + 1,
