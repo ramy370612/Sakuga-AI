@@ -1,7 +1,10 @@
+import type { NovelBodyEntity } from 'api/@types/novel';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { apiClient } from 'utils/apiClient';
 
 const Home = () => {
+  const [novelBody, setNovelBody] = useState<NovelBodyEntity | null>(null)
   const router = useRouter();
 
   // `/novel/123234` -> `123234` のように、novelIdパラメータを取得
@@ -10,6 +13,16 @@ const Home = () => {
     const novelIdParam = router.query.novelId;
     return Array.isArray(novelIdParam) ? novelIdParam[0] : novelIdParam ?? '';
   }, [router.query.novelId]);
+
+  useEffect(() => {
+    const fetchNovelData = async () => {
+      const res = await apiClient.novels.body.$get({ query: { id: novelId } });
+      return res
+    }
+
+    fetchNovelData().then(setNovelBody);
+    return () => setNovelBody(null);
+  }, [novelId])
 
   return (
     <div>
