@@ -1,4 +1,5 @@
-import type { EntityId } from 'api/@types/brandedId';
+import type { Prisma } from '@prisma/client';
+import type { NovelBodyEntity } from 'api/@types/novel';
 import type { ParagraphEntity } from 'api/@types/paragraph';
 import { novelQuery } from 'domain/novel/repository/novelQuery';
 import { transaction } from 'service/prismaClient';
@@ -6,29 +7,54 @@ import { paragraphMethod } from '../model/paragraphMethod';
 import { paragraphCommand } from '../repository/paragraphCommand';
 import { paragraphQuery } from '../repository/paragraphQuery';
 
-const paragraphUseCase = {
-  getOrCreateParagraphs: async (novelId: EntityId['novel']): Promise<ParagraphEntity[]> => {
-    return transaction('RepeatableRead', async (tx) => {
-      const paragraphs = await paragraphQuery.listByNovelId(tx, novelId);
-      if (paragraphs.length === 0) {
-        const novel = await novelQuery.getNovelById(tx, novelId);
-        if (!novel) {
-          throw new Error('novel not found');
-        }
+const fetchParagraphs = async (
+  tx: Prisma.TransactionClient,
+  workId: number,
+): Promise<ParagraphEntity[]> => {
+  return paragraphQuery.listByNovelWorkId(tx, workId);
+};
 
-        const paragraphs = await paragraphMethod.create(novel.workId);
-        const generatedParagraphs = await paragraphCommand.generateImage(
-          paragraphs,
-          novel.workId,
-        );
+const fetchNovel = async (
+  tx: Prisma.TransactionClient,
+  workId: number,
+): Promise<NovelBodyEntity> => {
+  const novel = await novelQuery.getNovelByWorkId(tx, workId);
+  if (!novel) {
+    throw new Error('novel not found');
+  }
+  return novel;
+};
 
-        for (const paragraph of generatedParagraphs) {
-          await paragraphCommand.save(tx, paragraph, novel.id);
-        }
-        return generatedParagraphs;
-      }
-      return paragraphs;
+const createAndSaveParagraphs = async (
+  workId: number,
+  novel: NovelBodyEntity,
+): Promise<ParagraphEntity[]> => {
+  const createdParagraphs = await paragraphMethod.create(workId);
+  const imageGeneratedParagraphs = await paragraphCommand.generateImage(createdParagraphs, workId);
+  imageGeneratedParagraphs.map(async (paragraph) => {
+    await transaction('RepeatableRead', async (tx) => {
+      await paragraphCommand.save(tx, paragraph, novel.id);
     });
+  });
+  return imageGeneratedParagraphs;
+};
+
+const paragraphUseCase = {
+  getOrCreateParagraphs: async (workId: number): Promise<ParagraphEntity[]> => {
+    const paragraphs = await transaction('RepeatableRead', async (tx) => {
+      const paragraphs = await fetchParagraphs(tx, workId);
+      if (paragraphs.length === 0) {
+        const novel = await fetchNovel(tx, workId);
+        return { novel, paragraphs: [] };
+      }
+      return { novel: null, paragraphs };
+    });
+
+    if (paragraphs.paragraphs.length === 0 && paragraphs.novel) {
+      return await createAndSaveParagraphs(workId, paragraphs.novel);
+    }
+
+    return paragraphs.paragraphs;
   },
 };
 
