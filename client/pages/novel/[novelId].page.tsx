@@ -1,4 +1,5 @@
 import type { NovelBodyEntity } from 'api/@types/novel';
+import { useCatchApiErr } from 'hooks/useCatchApiErr';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { apiClient } from 'utils/apiClient';
@@ -8,6 +9,7 @@ const Home = () => {
   const [novelBody, setNovelBody] = useState<NovelBodyEntity | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const catchApiErr = useCatchApiErr();
 
   // `/novel/123234` -> `123234` のように、novelIdパラメータを取得
   // novelIdパラメータを取得し、それをもとに小説情報を取得する
@@ -25,10 +27,11 @@ const Home = () => {
 
     fetchNovelData()
       .then(setNovelBody)
+      .catch(catchApiErr)
       .finally(() => setIsLoading(false));
 
     return () => setNovelBody(null);
-  }, [novelId]);
+  }, [novelId, catchApiErr]);
 
   if (isLoading) return <div className={styles.container}>Loading...</div>;
 
