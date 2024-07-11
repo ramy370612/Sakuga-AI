@@ -14,5 +14,5 @@ const apiClient = api(aspida(apiAxios, { baseURL }));
 
 test(GET(apiClient.novels.body), async () => {
   const res = await apiClient.novels.body.$get({ query: { id: '1567' as EntityId['novel'] } });
-  expect(res).toBeNull();
+  expect(res).not.toBeNull();
 });
