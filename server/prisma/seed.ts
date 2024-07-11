@@ -6,6 +6,9 @@ import aozoraBookList from '../data/aozoraBookList.json';
 const bookDataList = aozoraBookList as AozoraWork[];
 
 async function main(): Promise<void> {
+  const count = await prismaClient.novel.count();
+  if (count > 0) return;
+
   for (const bookData of bookDataList) {
     await prismaClient.novel.create({
       data: {
