@@ -1,4 +1,4 @@
-import { mockNovelBody } from 'data/mock/nobelBody';
+import { mockNovelBody } from 'data/mock/novelBody';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
