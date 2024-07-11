@@ -23,71 +23,61 @@ const Home = () => {
       id: 'test1',
       title: '走れメロス',
       author: '太宰治',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHjV78SPwV4RNvtcaa1pQ6g7pwwiNpIxMOtBVsPEp5SM2MKeikyS0THPGwuum51iN6sESYAyS-vupILfNV7DDAmXnRLupWMhQicWzeI-jc93I8YMODW99yRL2tDlyYM1Yim63BH33-Xjb7/s180-c/pose_hashiru_guruguru_man.png',
+      imageUrl: 'https://placehold.jp/150x150.png',
     },
     {
       id: 'test2',
       title: '羅生門',
       author: '芥川龍之介',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitbdHHvZrtm3TkVh5iaWrR2Y55mqa6UTnKM0t_PNHIKz1dB7bfbV_VMTgfQamZRUXIm3em63FGW7fUV8yBBYaWgkFmasdQY0O2EODwxBQex3Eo4keEqNUFWJcDoShK6BDFCzwgbPNpGwc/s180-c/landmark_chukagai_chouyoumon.png',
+      imageUrl: 'https://placehold.jp/150x150.png',
     },
     {
       id: 'test3',
       title: '吾輩は猫である',
       author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
+      imageUrl: 'https://placehold.jp/150x150.png',
     },
     {
       id: 'test4',
       title: '吾輩は猫である',
       author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
+      imageUrl: 'https://placehold.jp/150x150.png',
     },
     {
       id: 'test5',
       title: '吾輩は猫である',
       author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
+      imageUrl: 'https://placehold.jp/150x150.png',
     },
     {
       id: 'test6',
       title: '吾輩は猫である',
       author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
+      imageUrl: 'https://placehold.jp/150x150.png',
     },
     {
       id: 'test7',
       title: '吾輩は猫である',
       author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
+      imageUrl: 'https://placehold.jp/150x150.png',
     },
     {
       id: 'test8',
       title: '吾輩は猫である',
       author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
+      imageUrl: 'https://placehold.jp/150x150.png',
     },
     {
       id: 'test9',
       title: '吾輩は猫である',
       author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
+      imageUrl: 'https://placehold.jp/150x150.png',
     },
     {
       id: 'test10',
       title: '吾輩は猫である',
       author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
+      imageUrl: 'https://placehold.jp/150x150.png',
     },
   ];
   const urls = novels.map((novel) => `novel/${novel.id}`);
