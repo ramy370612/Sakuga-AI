@@ -2,9 +2,11 @@ import type { NovelBodyEntity } from 'api/@types/novel';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { apiClient } from 'utils/apiClient';
+import styles from './[novelId].module.css';
 
 const Home = () => {
-  const [novelBody, setNovelBody] = useState<NovelBodyEntity | null>(null)
+  const [novelBody, setNovelBody] = useState<NovelBodyEntity | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   // `/novel/123234` -> `123234` のように、novelIdパラメータを取得
@@ -15,14 +17,20 @@ const Home = () => {
   }, [router.query.novelId]);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchNovelData = async () => {
       const res = await apiClient.novels.body.$get({ query: { id: novelId } });
-      return res
-    }
+      return res;
+    };
 
-    fetchNovelData().then(setNovelBody);
+    fetchNovelData()
+      .then(setNovelBody)
+      .finally(() => setIsLoading(false));
+
     return () => setNovelBody(null);
-  }, [novelId])
+  }, [novelId]);
+
+  if (isLoading) return <div className={styles.container}>Loading...</div>;
 
   return (
     <div>
