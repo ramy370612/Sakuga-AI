@@ -1,9 +1,9 @@
-import { mockNovelBody } from 'data/mock/nobelBody';
+import { novelUseCase } from 'domain/novel/useCase/novelUseCase';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
-  get: ({ query: _query }) => ({
+  get: async ({ query }) => ({
     status: 200,
-    body: mockNovelBody,
+    body: await novelUseCase.getParagraph(query.workId),
   }),
 }));
