@@ -24,3 +24,26 @@ model Task {
   Author    User     @relation(fields: [authorId], references: [id])
   authorId  String
 }
+
+model Novel {
+  id                         Int     @id @default(autoincrement())
+  workId                     Int
+  title                      String
+  titleReading               String //読み仮名
+  sortReading                String? //ソート用に濁点・小文字をなくしたもの
+  publicationDate            String
+  lastUpdateDate             String
+  cardUrl                    String
+  authorSurname              String
+  authorGivenName            String? ///ないケースもある 例: 文科省
+  authorSurnameReading       String
+  authorGivenNameReading     String?
+  authorSurnameSortReading   String
+  authorGivenNameSortReading String?
+  authorSurnameRomaji        String
+  authorGivenNameRomaji      String?
+  characterCount             Float?
+  openingSentence            String?
+  totalAccessCount           Int
+  htmlFileUrl                String
+}

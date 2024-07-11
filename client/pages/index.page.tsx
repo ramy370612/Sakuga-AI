@@ -6,6 +6,7 @@ import styles from './index.module.css';
 const Home = () => {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState('');
+
   // `/?search=hoge` -> `['hoge']` のように、searchパラメータを配列で取得
   // 検索するキーワードをsearchパラメータとして保持し、それをもとに検索を行う
   const searchParams = useMemo(() => {
@@ -91,6 +92,7 @@ const Home = () => {
   ];
   const urls = novels.map((novel) => `novel/${novel.id}`);
   return (
+
     <div className={styles.container}>
       <div>
         <h1 className={styles.title}>Sakuga AI</h1>
@@ -117,6 +119,7 @@ const Home = () => {
           </Link>
         ))}
       </div>
+
     </div>
   );
 };

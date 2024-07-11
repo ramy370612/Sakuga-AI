@@ -45,6 +45,7 @@
     "dotenv": "^16.4.5",
     "fastify": "^4.26.2",
     "get-jwks": "^9.0.1",
+    "iconv-lite": "^0.6.3",
     "langchain": "^0.2.8",
     "ulid": "^2.3.0",
     "velona": "^0.8.0",
