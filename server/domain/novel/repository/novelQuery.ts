@@ -16,7 +16,7 @@ const getNovelUrlByWorkId = async (
 const getNovelsBytotalAccessCount = async (
   tx: Prisma.TransactionClient,
   limit: number,
-): Promise<Array<Novel & { rank: number }>> => {
+): Promise<(Novel & { rank: number })[]> => {
   const prismaNovels = await tx.novel.findMany({
     orderBy: {
       totalAccessCount: 'desc',
