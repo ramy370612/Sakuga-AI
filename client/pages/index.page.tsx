@@ -12,6 +12,7 @@ const Home = () => {
   const [rankings, setRankings] = useState<
     UnwrapPromise<ReturnType<typeof apiClient.novels.ranking.$get>>
   >([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const router = useRouter();
   const catchApiErr = useCatchApiErr();
@@ -62,10 +63,12 @@ const Home = () => {
         </button>
       </div>
       <div>
-        <h2 className={styles.sectionLabel}>{searchInput.length <= 0 ? '人気作品' : '検索結果'}</h2>
+        <h2 className={styles.sectionLabel}>
+          {searchResults.length <= 0 ? '人気作品' : '検索結果'}
+        </h2>
         <br />
         <div className={styles.section}>
-          {searchInput.length <= 0 &&
+          {searchResults.length <= 0 &&
             rankings?.map((novel) => (
               <Link key={novel.id} className={styles.novelContainer} href={`/novel/${novel.id}`}>
                 <div className={styles.novelCard}>
