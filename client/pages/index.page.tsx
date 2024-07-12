@@ -1,3 +1,4 @@
+import { useLoading } from 'components/loading/useLoading';
 import { useCatchApiErr } from 'hooks/useCatchApiErr';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -14,6 +15,7 @@ const Home = () => {
   const [searchInput, setSearchInput] = useState('');
   const router = useRouter();
   const catchApiErr = useCatchApiErr();
+  const { loadingElm, setLoading } = useLoading();
 
   // `/?search=hoge` -> `['hoge']` のように、searchパラメータを配列で取得
   // 検索するキーワードをsearchパラメータとして保持し、それをもとに検索を行う
@@ -27,18 +29,23 @@ const Home = () => {
   }, [router.query.search]);
 
   useEffect(() => {
+    setLoading(true);
     const fetch = async () => {
       const res = await apiClient.novels.ranking.$get({ query: { limit: 10 } });
       return res ?? [];
     };
 
-    fetch().then(setRankings).catch(catchApiErr);
+    fetch()
+      .then(setRankings)
+      .catch(catchApiErr)
+      .finally(() => setLoading(false));
 
     return () => setRankings([]);
-  }, [catchApiErr]);
+  }, [catchApiErr, setLoading]);
 
   return (
     <div className={styles.container}>
+      {loadingElm}
       <div>
         <h1 className={styles.title}>Sakuga AI</h1>
       </div>
