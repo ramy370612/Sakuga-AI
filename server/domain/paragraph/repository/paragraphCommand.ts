@@ -61,7 +61,7 @@ const paragraphToPrompt = async (paragraph: ParagraphEntity): Promise<string> =>
     new SystemMessage(
       '以下の文章から画像生成用のプロンプトを生成して\n- 簡潔に状況を説明すること\n- プロンプトは1000字以内に収めること',
     ),
-    new HumanMessage(paragraph.paragraph),
+    new HumanMessage(paragraph.content),
   ];
   const chain = llm.pipe(parser);
   return await chain.invoke(message);
@@ -82,7 +82,7 @@ export const paragraphCommand = {
       update: { imageURL: paragraph.image?.s3Key },
       create: {
         index: paragraph.index,
-        paragraph: paragraph.paragraph,
+        paragraph: paragraph.content,
         imageURL: paragraph.image?.s3Key,
         novelId,
       },

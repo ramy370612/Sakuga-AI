@@ -7,7 +7,7 @@ const toEntity = async (
   prismaParagraph: Paragraph & { Novel: Novel },
 ): Promise<ParagraphEntity> => ({
   index: prismaParagraph.index,
-  paragraph: prismaParagraph.paragraph,
+  content: prismaParagraph.paragraph,
   image:
     prismaParagraph.imageURL === null
       ? undefined

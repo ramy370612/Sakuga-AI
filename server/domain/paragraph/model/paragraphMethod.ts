@@ -53,10 +53,10 @@ export const paragraphMethod = {
     const separatedParagraphs = splitStringByLength(novelText, 400);
 
     console.log(separatedParagraphs);
-    separatedParagraphs.map((paragraph, index) => {
+    separatedParagraphs.map((content, index) => {
       paragraphs.push({
         index,
-        paragraph,
+        content,
         image: undefined,
       });
     });
