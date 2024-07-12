@@ -67,25 +67,7 @@ const getNovelsByAhthors = async (
     },
   });
 
-  const uniqueNovelsMap = new Map<
-    string,
-    {
-      title: string;
-      authorSurname: string;
-      authorGivenName: string | null;
-    }
-  >();
-
-  prismaNovels.forEach((novel) => {
-    const key = `${novel.title}-${novel.authorSurname}-${novel.authorGivenName}`;
-    if (!uniqueNovelsMap.has(key)) {
-      uniqueNovelsMap.set(key, novel);
-    }
-  });
-
-  const uniqueNovels = Array.from(uniqueNovelsMap.values());
-
-  return uniqueNovels;
+  return prismaNovels;
 };
 
 export { getNovelUrlByWorkId, getNovelsByAhthors, getNovelsBytotalAccessCount };
