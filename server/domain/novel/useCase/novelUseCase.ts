@@ -1,4 +1,5 @@
 import { type Novel } from '@prisma/client';
+import type { NovelInfo } from 'api/@types/novel';
 import { load } from 'cheerio';
 import { decode } from 'iconv-lite';
 import { transaction } from 'service/prismaClient';
@@ -16,11 +17,18 @@ export const novelUseCase = {
 
       return $('div.main_text').text().trim();
     }),
+
   ranking: async (limit: number): Promise<Array<Novel & { rank: number }> | null> =>
     transaction('RepeatableRead', async (tx) => {
       const rankings = await novelQuery.getNovelsBytotalAccessCount(tx, limit);
       if (!rankings || rankings.length === 0) return null;
 
       return rankings;
+    }),
+
+  searching: async (search: string): Promise<NovelInfo[]> =>
+    transaction('RepeatableRead', async (tx) => {
+      const searchResult = await novelQuery.getNovelsByAhthors(tx, search);
+      return searchResult;
     }),
 };
