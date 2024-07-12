@@ -53,7 +53,7 @@ model Paragraph {
   novelId   String
   index     Int
   paragraph String
-  imageURL  String?
+  imageKey  String?
   Novel     Novel   @relation(fields: [novelId], references: [id])
 
   @@id([novelId, index])

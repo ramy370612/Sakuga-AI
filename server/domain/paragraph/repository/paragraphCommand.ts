@@ -79,11 +79,11 @@ export const paragraphCommand = {
       where: {
         novelId_index: { novelId, index: paragraph.index },
       },
-      update: { imageURL: paragraph.image?.s3Key },
+      update: { imageKey: paragraph.image?.s3Key },
       create: {
         index: paragraph.index,
         paragraph: paragraph.content,
-        imageURL: paragraph.image?.s3Key,
+        imageKey: paragraph.image?.s3Key,
         novelId,
       },
     });
@@ -113,7 +113,6 @@ export const paragraphCommand = {
           ...paragraph,
           image: { url: await s3.getSignedUrl(key), s3Key: key },
         };
-        console.log('image', { url: await s3.getSignedUrl(key), s3Key: key });
         updatedParagraphs.push(updatedParagraph);
       } catch (e) {
         console.log(e);
@@ -133,7 +132,6 @@ export const paragraphCommand = {
           const imageBlob = await downloadImage(MOCK_IMAGE_URL);
           const key = `novels/images/${workId}/${paragraph.index}.png`;
           await uploadToS3(key, imageBlob);
-          console.log('image', { url: await s3.getSignedUrl(key), s3Key: key });
           return { ...paragraph, image: { url: await s3.getSignedUrl(key), s3Key: key } };
         } catch (e) {
           console.log(e);

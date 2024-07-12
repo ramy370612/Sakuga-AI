@@ -9,9 +9,9 @@ const toEntity = async (
   index: prismaParagraph.index,
   content: prismaParagraph.paragraph,
   image:
-    prismaParagraph.imageURL === null
+    prismaParagraph.imageKey === null
       ? undefined
-      : { url: await s3.getSignedUrl(prismaParagraph.imageURL), s3Key: prismaParagraph.imageURL },
+      : { url: await s3.getSignedUrl(prismaParagraph.imageKey), s3Key: prismaParagraph.imageKey },
 });
 
 const listByNovelId = async (
