@@ -92,28 +92,34 @@ export const paragraphCommand = {
     paragraphs: ParagraphEntity[],
     workId: number,
   ): Promise<ParagraphEntity[]> => {
-    const updatedParagraphs = await Promise.all(
-      paragraphs.map(async (paragraph) => {
-        try {
-          const prompt = await paragraphToPrompt(paragraph);
-          const dalle3Tool = new DallEAPIWrapper({
-            n: 1,
-            model: 'dall-e-3',
-            apiKey: OPENAI_API_KEY,
-            size: '1792x1024',
-          });
-          const imageURL = await dalle3Tool.invoke(prompt);
+    const updatedParagraphs: ParagraphEntity[] = [];
 
-          const imageBlob = await downloadImage(imageURL);
-          const key = `novels/images/${workId}/${paragraph.index}.png`;
-          await uploadToS3(key, imageBlob);
-          return { ...paragraph, image: { url: await s3.getSignedUrl(key), s3Key: key } };
-        } catch (e) {
-          console.log(e);
-          return paragraph;
-        }
-      }),
-    );
+    for (const paragraph of paragraphs) {
+      try {
+        const prompt = await paragraphToPrompt(paragraph);
+        const dalle3Tool = new DallEAPIWrapper({
+          n: 1,
+          model: 'dall-e-3',
+          apiKey: OPENAI_API_KEY,
+          size: '1792x1024',
+        });
+        const imageURL = await dalle3Tool.invoke(prompt);
+
+        const imageBlob = await downloadImage(imageURL);
+        const key = `novels/images/${workId}/${paragraph.index}.png`;
+        await uploadToS3(key, imageBlob);
+        const updatedParagraph = {
+          ...paragraph,
+          image: { url: await s3.getSignedUrl(key), s3Key: key },
+        };
+        console.log('image', { url: await s3.getSignedUrl(key), s3Key: key });
+        updatedParagraphs.push(updatedParagraph);
+      } catch (e) {
+        console.log(e);
+        updatedParagraphs.push(paragraph);
+      }
+    }
+
     return updatedParagraphs;
   },
   generateImageWithMock: async (
