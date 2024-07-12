@@ -1,4 +1,5 @@
 import { useCatchApiErr } from 'hooks/useCatchApiErr';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { apiClient } from 'utils/apiClient';
@@ -59,7 +60,7 @@ const Home = () => {
         <div className={styles.section}>
           {searchInput.length <= 0 &&
             rankings?.map((novel) => (
-              <div key={novel.id} className={styles.novelContainer}>
+              <Link key={novel.id} className={styles.novelContainer} href={`/novel/${novel.id}`}>
                 <div className={styles.novelCard}>
                   <div className={styles.novelImage}>
                     <img
@@ -72,7 +73,7 @@ const Home = () => {
                     <p>{`${novel.authorSurname} ${novel.authorGivenName}`.trim()}</p>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
         </div>
       </div>

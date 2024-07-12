@@ -86,6 +86,7 @@
 }
 
 .novelContainer {
+  display: block;
   container-type: inline-size;
   flex: 1 1 max(calc((100% - 4svmin) / 3), 200px);
 }
