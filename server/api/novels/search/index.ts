@@ -3,7 +3,7 @@ import type { DefineMethods } from 'aspida';
 export type Methods = DefineMethods<{
   get: {
     query: {
-      searchAuthors: string | number;
+      search: string | number;
     };
     resBody: Array<{
       workId: number;
