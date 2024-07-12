@@ -42,8 +42,8 @@ const getNovelsByAhthors = async (
   authorSurname: string;
   authorGivenName: string | null;
 }> | null> => {
-  const searchNumber = Number(search);
   const searchString = search.toString();
+  const searchNumber = Number.parseInt(searchString);
 
   const orConditions = [];
 
