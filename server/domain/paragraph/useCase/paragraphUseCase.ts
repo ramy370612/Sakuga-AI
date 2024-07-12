@@ -1,7 +1,6 @@
 import type { Prisma } from '@prisma/client';
 import type { NovelBodyEntity } from 'api/@types/novel';
 import type { ParagraphEntity } from 'api/@types/paragraph';
-import { novelQuery } from 'domain/novel/repository/novelQuery';
 import { transaction } from 'service/prismaClient';
 import { paragraphMethod } from '../model/paragraphMethod';
 import { paragraphCommand } from '../repository/paragraphCommand';
@@ -12,17 +11,6 @@ const fetchParagraphs = async (
   workId: number,
 ): Promise<ParagraphEntity[]> => {
   return paragraphQuery.listByNovelWorkId(tx, workId);
-};
-
-const fetchNovel = async (
-  tx: Prisma.TransactionClient,
-  workId: number,
-): Promise<NovelBodyEntity> => {
-  const novel = await novelQuery.getNovelByWorkId(tx, workId);
-  if (!novel) {
-    throw new Error('novel not found');
-  }
-  return novel;
 };
 
 const createAndSaveParagraphs = async (
@@ -40,21 +28,16 @@ const createAndSaveParagraphs = async (
 };
 
 const paragraphUseCase = {
-  getOrCreateParagraphs: async (workId: number): Promise<ParagraphEntity[]> => {
+  getOrCreateParagraphs: async (novel: NovelBodyEntity): Promise<ParagraphEntity[]> => {
     const paragraphs = await transaction('RepeatableRead', async (tx) => {
-      const paragraphs = await fetchParagraphs(tx, workId);
+      const paragraphs = await fetchParagraphs(tx, novel.workId);
       if (paragraphs.length === 0) {
-        const novel = await fetchNovel(tx, workId);
-        return { novel, paragraphs: [] };
+        return await createAndSaveParagraphs(novel.workId, novel);
       }
-      return { novel: null, paragraphs };
+      return paragraphs;
     });
 
-    if (paragraphs.paragraphs.length === 0 && paragraphs.novel) {
-      return await createAndSaveParagraphs(workId, paragraphs.novel);
-    }
-
-    return paragraphs.paragraphs;
+    return paragraphs;
   },
 };
 

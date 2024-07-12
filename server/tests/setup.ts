@@ -33,6 +33,5 @@ afterEach(async (info) => {
 
 afterAll(async (info) => {
   if (unneededServer(info)) return;
-
   await server.close();
 });

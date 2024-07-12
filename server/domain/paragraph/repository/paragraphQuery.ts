@@ -7,11 +7,8 @@ const toEntity = async (
   prismaParagraph: Paragraph & { Novel: Novel },
 ): Promise<ParagraphEntity> => ({
   index: prismaParagraph.index,
-  content: prismaParagraph.paragraph,
-  image:
-    prismaParagraph.imageKey === null
-      ? undefined
-      : { url: await s3.getSignedUrl(prismaParagraph.imageKey), s3Key: prismaParagraph.imageKey },
+  content: prismaParagraph.content,
+  image: { url: await s3.getSignedUrl(prismaParagraph.imageKey), s3Key: prismaParagraph.imageKey },
 });
 
 const listByNovelId = async (

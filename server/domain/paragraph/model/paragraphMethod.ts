@@ -1,4 +1,5 @@
 import type { ParagraphEntity } from 'api/@types/paragraph';
+import assert from 'assert';
 import { novelUseCase } from 'domain/novel/useCase/novelUseCase';
 
 // const responseSchema = z.object({
@@ -43,9 +44,7 @@ export const paragraphMethod = {
     const paragraphs: ParagraphEntity[] = [];
 
     const novelText = await novelUseCase.gettext(workId);
-    if (!novelText) {
-      throw new Error('novel text not found');
-    }
+    assert(novelText !== null);
     const splitStringByLength = (str: string, length: number): string[] =>
       Array.from({ length: Math.ceil(str.length / length) }, (_, i) =>
         str.slice(i * length, (i + 1) * length),
@@ -56,7 +55,7 @@ export const paragraphMethod = {
       paragraphs.push({
         index,
         content,
-        image: undefined,
+        image: { url: '', s3Key: '' },
       });
     });
 

@@ -1,5 +1,5 @@
 export type ParagraphEntity = {
   index: number;
   content: string;
-  image: { url: string; s3Key: string } | undefined;
+  image: { url: string; s3Key: string };
 };

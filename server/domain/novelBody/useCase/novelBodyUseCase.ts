@@ -8,6 +8,6 @@ export const novelBodyUseCase = {
     transaction('RepeatableRead', async (tx) => {
       const novel = await novelQuery.getNovelByWorkId(tx, workId);
       if (novel === null) return null;
-      return { ...novel, paragraphs: await paragraphUseCase.getOrCreateParagraphs(workId) };
+      return { ...novel, paragraphs: await paragraphUseCase.getOrCreateParagraphs(novel) };
     }),
 };
