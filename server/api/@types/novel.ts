@@ -5,6 +5,12 @@ export type NovelEntity = {
   text: string;
 };
 
+export type Author = {
+  title: string;
+  authorSurname: string;
+  authorGivenName: string | null;
+};
+
 export type AozoraWork = {
   作品ID: number;
   作品名: string;
