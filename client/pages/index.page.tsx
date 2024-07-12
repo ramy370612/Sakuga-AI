@@ -40,30 +40,41 @@ const Home = () => {
     <div className={styles.container}>
       <div>
         <h1 className={styles.title}>Sakuga AI</h1>
-        {searchParams.length > 0 && <p>Search: {searchParams.join(', ')}</p>}
+      </div>
+      <div className={styles.search}>
         <input
-          className={styles.searchWindow}
-          type="search"
+          className={styles.searchInput}
+          type="text"
           placeholder="作品検索"
           value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
+          onChange={(e) => setSearchInput(e.currentTarget.value)}
         />
-        <button className={styles.searchButton}>検索</button>
+        <button className={styles.searchButton} disabled={searchInput.trim().length <= 0}>
+          検索
+        </button>
       </div>
-      <label className={styles.ranking}>ランキング</label>
       <div>
-        {searchInput.length <= 0 &&
-          rankings?.map((novel, i) => (
-            <div key={novel.id}>
-              <p>
-                {i + 1}位: {novel.title}
-              </p>
-              <p>
-                作者: {novel.authorSurname} {novel.authorGivenName}
-              </p>
-              <p>アクセス数: {novel.totalAccessCount}</p>
-            </div>
-          ))}
+        <h2 className={styles.sectionLabel}>{searchInput.length <= 0 ? '人気作品' : '検索結果'}</h2>
+        <br />
+        <div className={styles.section}>
+          {searchInput.length <= 0 &&
+            rankings?.map((novel) => (
+              <div key={novel.id} className={styles.novelContainer}>
+                <div className={styles.novelCard}>
+                  <div className={styles.novelImage}>
+                    <img
+                      src="https://placehold.jp/150x150.png"
+                      alt={`${novel.title}'s thumbnail`}
+                    />
+                  </div>
+                  <div>
+                    <h3>{novel.title}</h3>
+                    <p>{`${novel.authorSurname} ${novel.authorGivenName}`.trim()}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );
