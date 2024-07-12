@@ -1,11 +1,22 @@
+import { useLoading } from 'components/loading/useLoading';
+import { useCatchApiErr } from 'hooks/useCatchApiErr';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { apiClient } from 'utils/apiClient';
 import styles from './index.module.css';
 
+type UnwrapPromise<T extends Promise<unknown>> = T extends Promise<infer U> ? U : never;
+
 const Home = () => {
-  const router = useRouter();
+  const [rankings, setRankings] = useState<
+    UnwrapPromise<ReturnType<typeof apiClient.novels.ranking.$get>>
+  >([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [searchInput, setSearchInput] = useState('');
+  const router = useRouter();
+  const catchApiErr = useCatchApiErr();
+  const { loadingElm, setLoading } = useLoading();
 
   // `/?search=hoge` -> `['hoge']` のように、searchパラメータを配列で取得
   // 検索するキーワードをsearchパラメータとして保持し、それをもとに検索を行う
@@ -18,108 +29,64 @@ const Home = () => {
         : [];
   }, [router.query.search]);
 
-  const novels = [
-    {
-      id: 'test1',
-      title: '走れメロス',
-      author: '太宰治',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHjV78SPwV4RNvtcaa1pQ6g7pwwiNpIxMOtBVsPEp5SM2MKeikyS0THPGwuum51iN6sESYAyS-vupILfNV7DDAmXnRLupWMhQicWzeI-jc93I8YMODW99yRL2tDlyYM1Yim63BH33-Xjb7/s180-c/pose_hashiru_guruguru_man.png',
-    },
-    {
-      id: 'test2',
-      title: '羅生門',
-      author: '芥川龍之介',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitbdHHvZrtm3TkVh5iaWrR2Y55mqa6UTnKM0t_PNHIKz1dB7bfbV_VMTgfQamZRUXIm3em63FGW7fUV8yBBYaWgkFmasdQY0O2EODwxBQex3Eo4keEqNUFWJcDoShK6BDFCzwgbPNpGwc/s180-c/landmark_chukagai_chouyoumon.png',
-    },
-    {
-      id: 'test3',
-      title: '吾輩は猫である',
-      author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
-    },
-    {
-      id: 'test4',
-      title: '吾輩は猫である',
-      author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
-    },
-    {
-      id: 'test5',
-      title: '吾輩は猫である',
-      author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
-    },
-    {
-      id: 'test6',
-      title: '吾輩は猫である',
-      author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
-    },
-    {
-      id: 'test7',
-      title: '吾輩は猫である',
-      author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
-    },
-    {
-      id: 'test8',
-      title: '吾輩は猫である',
-      author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
-    },
-    {
-      id: 'test9',
-      title: '吾輩は猫である',
-      author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
-    },
-    {
-      id: 'test10',
-      title: '吾輩は猫である',
-      author: '夏目漱石',
-      imageUrl:
-        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTDl81C4SMTFVZC9yP0m0iESBSw_0D53KcR3HGvR27lDFJzFWSDvRawhJEKAeoT19GHEJI8iTwLEMPeuTOcZpLI-BBDatvH2LPHS2S_F6vFFOAJ_56bwfsqNTVjp7shr1_g0QPaAWj1vyp/s180-c/pet_cat_sit.png',
-    },
-  ];
-  const urls = novels.map((novel) => `novel/${novel.id}`);
-  return (
+  useEffect(() => {
+    setLoading(true);
+    const fetch = async () => {
+      const res = await apiClient.novels.ranking.$get({ query: { limit: 10 } });
+      return res ?? [];
+    };
 
+    fetch()
+      .then(setRankings)
+      .catch(catchApiErr)
+      .finally(() => setLoading(false));
+
+    return () => setRankings([]);
+  }, [catchApiErr, setLoading]);
+
+  return (
     <div className={styles.container}>
+      {loadingElm}
       <div>
         <h1 className={styles.title}>Sakuga AI</h1>
-        {searchParams.length > 0 && <p>Search: {searchParams.join(', ')}</p>}
+      </div>
+      <div className={styles.search}>
         <input
-          className={styles.searchWindow}
-          type="search"
+          className={styles.searchInput}
+          type="text"
           placeholder="作品検索"
           value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
+          onChange={(e) => setSearchInput(e.currentTarget.value)}
         />
-        <button className={styles.searchButton}>検索</button>
+        <button className={styles.searchButton} disabled={searchInput.trim().length <= 0}>
+          検索
+        </button>
       </div>
-      <label className={styles.ranking}>ランキング</label>
       <div>
-        {novels.map((novel, index) => (
-          <Link
-            className={styles[`work${index + 1}` as keyof typeof styles]}
-            href={urls[index]}
-            key={novel.id}
-          >
-            <img src={novel.imageUrl} alt={novel.title} />
-            {novel.title}
-          </Link>
-        ))}
+        <h2 className={styles.sectionLabel}>
+          {searchResults.length <= 0 ? '人気作品' : '検索結果'}
+        </h2>
+        <br />
+        <div className={styles.section}>
+          {searchResults.length <= 0 &&
+            rankings?.map((novel) => (
+              <Link key={novel.id} className={styles.novelContainer} href={`/novel/${novel.id}`}>
+                <div className={styles.novelCard}>
+                  <div className={styles.novelImage}>
+                    <img
+                      src="https://placehold.jp/150x150.png"
+                      alt={`${novel.title}'s thumbnail`}
+                    />
+                  </div>
+                  <div>
+                    <h3>{novel.title}</h3>
+                    <p>{`${novel.authorSurname} ${novel.authorGivenName}`.trim()}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+        </div>
       </div>
-
     </div>
   );
 };
