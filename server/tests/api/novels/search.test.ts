@@ -1,6 +1,5 @@
 import aspida from '@aspida/axios';
 import api from 'api/$api';
-import assert from 'assert';
 import axios from 'axios';
 import { API_BASE_PATH, PORT } from 'service/envValues';
 import { expect, test } from 'vitest';
@@ -12,10 +11,12 @@ const apiAxios = axios.create({ withCredentials: true });
 
 const apiClient = api(aspida(apiAxios, { baseURL }));
 
-test(GET(apiClient.novels.ranking), async () => {
-  const res = await apiClient.novels.ranking.$get({ query: { limit: 54 } });
-  assert(res !== null);
-  expect(res[0].title).toEqual('こころ');
-  const nullRes = await apiClient.novels.ranking.$get({ query: { limit: 0 } });
-  expect(nullRes).toBeNull();
+test(GET(apiClient.novels.search), async () => {
+  const res = await apiClient.novels.search.$get({
+    query: { searchParams: '銀河鉄道' },
+  });
+
+  expect(res?.[0].title).toEqual('銀河鉄道の夜');
+  const nullRes = await apiClient.novels.search.$get({ query: { searchParams: 'あ' } });
+  expect(nullRes).not.toBeNull;
 });

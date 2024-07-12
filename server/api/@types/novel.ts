@@ -12,6 +12,12 @@ export type NovelBodyEntity = {
   aozoraUrl: string;
 };
 
+export type NovelInfo = {
+  title: string;
+  authorSurname: string;
+  authorGivenName: string | null;
+};
+
 export type AozoraWork = {
   作品ID: number;
   作品名: string;

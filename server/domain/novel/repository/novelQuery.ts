@@ -1,4 +1,5 @@
 import type { Novel, Prisma } from '@prisma/client';
+import type { NovelInfo } from 'api/@types/novel';
 
 const getNovelUrlByWorkId = async (
   tx: Prisma.TransactionClient,
@@ -31,4 +32,39 @@ const getNovelsBytotalAccessCount = async (
   }));
 };
 
-export { getNovelUrlByWorkId, getNovelsBytotalAccessCount };
+const getNovelsByAhthors = async (
+  tx: Prisma.TransactionClient,
+  SearchParam: string,
+): Promise<NovelInfo[]> => {
+  const orConditions = [
+    { title: { contains: SearchParam } },
+    { titleReading: { contains: SearchParam } },
+    { sortReading: { contains: SearchParam } },
+    { authorSurname: { contains: SearchParam } },
+    { authorGivenName: { contains: SearchParam } },
+    { authorGivenNameReading: { contains: SearchParam } },
+    { authorSurnameReading: { contains: SearchParam } },
+    { authorGivenNameSortReading: { contains: SearchParam } },
+    { authorSurnameSortReading: { contains: SearchParam } },
+    { authorSurnameRomaji: { contains: SearchParam } },
+    { authorGivenNameRomaji: { contains: SearchParam } },
+  ];
+
+  const prismaNovels = await tx.novel.findMany({
+    where: {
+      OR: orConditions,
+    },
+    orderBy: {
+      workId: 'asc',
+    },
+    select: {
+      title: true,
+      authorSurname: true,
+      authorGivenName: true,
+    },
+  });
+
+  return prismaNovels;
+};
+
+export { getNovelUrlByWorkId, getNovelsByAhthors, getNovelsBytotalAccessCount };
