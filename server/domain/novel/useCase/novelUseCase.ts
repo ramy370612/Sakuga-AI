@@ -30,9 +30,8 @@ export const novelUseCase = {
     }),
 
   searching: async (
-    search: string | number,
+    search: string,
   ): Promise<Array<{
-    workId: number;
     title: string;
     authorSurname: string;
     authorGivenName: string | null;

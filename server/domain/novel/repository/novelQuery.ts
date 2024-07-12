@@ -25,8 +25,6 @@ const getNovelsBytotalAccessCount = async (
 
   if (prismaNovels.length === 0) return [];
 
-  console.log(prismaNovels);
-
   return prismaNovels.map((novel, index) => ({
     ...novel,
     rank: index + 1,
@@ -35,35 +33,25 @@ const getNovelsBytotalAccessCount = async (
 
 const getNovelsByAhthors = async (
   tx: Prisma.TransactionClient,
-  search: string | number,
+  Authors: string,
 ): Promise<Array<{
-  workId: number;
   title: string;
   authorSurname: string;
   authorGivenName: string | null;
 }> | null> => {
-  const searchString = search.toString();
-  const searchNumber = Number.parseInt(searchString);
-
-  const orConditions = [];
-
-  if (!isNaN(searchNumber)) {
-    orConditions.push({ workId: searchNumber });
-  }
-
-  orConditions.push(
-    { title: searchString },
-    { titleReading: searchString },
-    { sortReading: searchString },
-    { authorSurname: searchString },
-    { authorGivenName: searchString },
-    { authorGivenNameReading: searchString },
-    { authorSurnameReading: searchString },
-    { authorGivenNameSortReading: searchString },
-    { authorSurnameSortReading: searchString },
-    { authorSurnameRomaji: searchString },
-    { authorGivenNameRomaji: searchString },
-  );
+  const orConditions = [
+    { title: { contains: Authors } },
+    { titleReading: { contains: Authors } },
+    { sortReading: { contains: Authors } },
+    { authorSurname: { contains: Authors } },
+    { authorGivenName: { contains: Authors } },
+    { authorGivenNameReading: { contains: Authors } },
+    { authorSurnameReading: { contains: Authors } },
+    { authorGivenNameSortReading: { contains: Authors } },
+    { authorSurnameSortReading: { contains: Authors } },
+    { authorSurnameRomaji: { contains: Authors } },
+    { authorGivenNameRomaji: { contains: Authors } },
+  ];
 
   const prismaNovels = await tx.novel.findMany({
     where: {
@@ -73,7 +61,6 @@ const getNovelsByAhthors = async (
       workId: 'asc',
     },
     select: {
-      workId: true,
       title: true,
       authorSurname: true,
       authorGivenName: true,
@@ -81,9 +68,8 @@ const getNovelsByAhthors = async (
   });
 
   const uniqueNovelsMap = new Map<
-    number,
+    string,
     {
-      workId: number;
       title: string;
       authorSurname: string;
       authorGivenName: string | null;
@@ -91,8 +77,9 @@ const getNovelsByAhthors = async (
   >();
 
   prismaNovels.forEach((novel) => {
-    if (!uniqueNovelsMap.has(novel.workId)) {
-      uniqueNovelsMap.set(novel.workId, novel);
+    const key = `${novel.title}-${novel.authorSurname}-${novel.authorGivenName}`;
+    if (!uniqueNovelsMap.has(key)) {
+      uniqueNovelsMap.set(key, novel);
     }
   });
 
