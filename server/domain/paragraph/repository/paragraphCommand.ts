@@ -94,6 +94,7 @@ export const paragraphCommand = {
   ): Promise<ParagraphEntity[]> => {
     const updatedParagraphs: ParagraphEntity[] = [];
 
+    //並列処理するとAPIのリクエスト制限に引っかかるので、順次処理で
     for (const paragraph of paragraphs) {
       try {
         const prompt = await paragraphToPrompt(paragraph);
