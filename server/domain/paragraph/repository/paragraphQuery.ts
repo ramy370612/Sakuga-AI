@@ -1,6 +1,7 @@
 import type { Novel, Paragraph, Prisma } from '@prisma/client';
 import type { EntityId } from 'api/@types/brandedId';
 import type { ParagraphEntity } from 'api/@types/paragraph';
+import { s3 } from 'service/s3Client';
 
 const toEntity = async (
   prismaParagraph: Paragraph & { Novel: Novel },
@@ -10,7 +11,7 @@ const toEntity = async (
   image:
     prismaParagraph.imageURL === null
       ? undefined
-      : { url: prismaParagraph.imageURL, s3Key: prismaParagraph.imageURL },
+      : { url: await s3.getSignedUrl(prismaParagraph.imageURL), s3Key: prismaParagraph.imageURL },
 });
 
 const listByNovelId = async (
