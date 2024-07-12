@@ -1,4 +1,5 @@
 import { type Novel } from '@prisma/client';
+import type { NovelInfo } from 'api/@types/novel';
 import { load } from 'cheerio';
 import { decode } from 'iconv-lite';
 import { transaction } from 'service/prismaClient';
@@ -29,13 +30,7 @@ export const novelUseCase = {
       return rankings;
     }),
 
-  searching: async (
-    search: string,
-  ): Promise<Array<{
-    title: string;
-    authorSurname: string;
-    authorGivenName: string | null;
-  }> | null> =>
+  searching: async (search: string): Promise<NovelInfo[]> =>
     transaction('RepeatableRead', async (tx) => {
       const searchResult = await getNovelsByAhthors(tx, search);
       return searchResult;

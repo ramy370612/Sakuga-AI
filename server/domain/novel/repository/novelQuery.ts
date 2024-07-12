@@ -1,4 +1,5 @@
 import type { Novel, Prisma } from '@prisma/client';
+import type { NovelInfo } from 'api/@types/novel';
 
 const getNovelUrlByWorkId = async (
   tx: Prisma.TransactionClient,
@@ -33,24 +34,20 @@ const getNovelsBytotalAccessCount = async (
 
 const getNovelsByAhthors = async (
   tx: Prisma.TransactionClient,
-  Authors: string,
-): Promise<Array<{
-  title: string;
-  authorSurname: string;
-  authorGivenName: string | null;
-}> | null> => {
+  SearchParam: string,
+): Promise<NovelInfo[]> => {
   const orConditions = [
-    { title: { contains: Authors } },
-    { titleReading: { contains: Authors } },
-    { sortReading: { contains: Authors } },
-    { authorSurname: { contains: Authors } },
-    { authorGivenName: { contains: Authors } },
-    { authorGivenNameReading: { contains: Authors } },
-    { authorSurnameReading: { contains: Authors } },
-    { authorGivenNameSortReading: { contains: Authors } },
-    { authorSurnameSortReading: { contains: Authors } },
-    { authorSurnameRomaji: { contains: Authors } },
-    { authorGivenNameRomaji: { contains: Authors } },
+    { title: { contains: SearchParam } },
+    { titleReading: { contains: SearchParam } },
+    { sortReading: { contains: SearchParam } },
+    { authorSurname: { contains: SearchParam } },
+    { authorGivenName: { contains: SearchParam } },
+    { authorGivenNameReading: { contains: SearchParam } },
+    { authorSurnameReading: { contains: SearchParam } },
+    { authorGivenNameSortReading: { contains: SearchParam } },
+    { authorSurnameSortReading: { contains: SearchParam } },
+    { authorSurnameRomaji: { contains: SearchParam } },
+    { authorGivenNameRomaji: { contains: SearchParam } },
   ];
 
   const prismaNovels = await tx.novel.findMany({

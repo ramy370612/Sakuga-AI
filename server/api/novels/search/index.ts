@@ -1,11 +1,11 @@
-import type { Author } from 'api/@types/novel';
+import type { NovelInfo } from 'api/@types/novel';
 import type { DefineMethods } from 'aspida';
 
 export type Methods = DefineMethods<{
   get: {
     query: {
-      searchAuthors: string;
+      searchParams: string;
     };
-    resBody: Array<Author> | null;
+    resBody: NovelInfo[];
   };
 }>;

@@ -13,10 +13,10 @@ const apiClient = api(aspida(apiAxios, { baseURL }));
 
 test(GET(apiClient.novels.search), async () => {
   const res = await apiClient.novels.search.$get({
-    query: { searchAuthors: '銀河鉄道' },
+    query: { searchParams: '銀河鉄道' },
   });
 
   expect(res?.[0].title).toEqual('銀河鉄道の夜');
-  const nullRes = await apiClient.novels.search.$get({ query: { searchAuthors: 'あ' } });
+  const nullRes = await apiClient.novels.search.$get({ query: { searchParams: 'あ' } });
   expect(nullRes).not.toBeNull;
 });

@@ -5,7 +5,7 @@ export type NovelEntity = {
   text: string;
 };
 
-export type Author = {
+export type NovelInfo = {
   title: string;
   authorSurname: string;
   authorGivenName: string | null;

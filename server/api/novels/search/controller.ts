@@ -2,11 +2,8 @@ import { novelUseCase } from 'domain/novel/useCase/novelUseCase';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
-  get: async ({ query }) => {
-    const result = await novelUseCase.searching(query.searchAuthors);
-    return {
-      status: 200,
-      body: result,
-    };
-  },
+  get: async ({ query }) => ({
+    status: 200,
+    body: await novelUseCase.searching(query.searchParams),
+  }),
 }));
