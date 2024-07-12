@@ -1,9 +1,9 @@
-import { novelUseCase } from 'domain/novel/useCase/novelUseCase';
+import { novelBodyUseCase } from 'domain/novelBody/useCase/novelBodyUseCase';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
   get: async ({ query }) => ({
     status: 200,
-    body: await novelUseCase.getParagraph(query.workId),
+    body: await novelBodyUseCase.getParagraph(query.workId),
   }),
 }));

@@ -1,7 +1,5 @@
 import { type Novel } from '@prisma/client';
-import type { NovelBodyEntity } from 'api/@types/novel';
 import { load } from 'cheerio';
-import { paragraphUseCase } from 'domain/paragraph/useCase/paragraphUseCase';
 import { decode } from 'iconv-lite';
 import { transaction } from 'service/prismaClient';
 import { novelQuery } from '../repository/novelQuery';
@@ -24,11 +22,5 @@ export const novelUseCase = {
       if (!rankings || rankings.length === 0) return null;
 
       return rankings;
-    }),
-  getParagraph: async (workId: number): Promise<NovelBodyEntity | null> =>
-    transaction('RepeatableRead', async (tx) => {
-      const novel = await novelQuery.getNovelByWorkId(tx, workId);
-      if (novel === null) return null;
-      return { ...novel, paragraphs: await paragraphUseCase.getOrCreateParagraphs(workId) };
     }),
 };
