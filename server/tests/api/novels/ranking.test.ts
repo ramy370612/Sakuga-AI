@@ -15,10 +15,7 @@ const apiClient = api(aspida(apiAxios, { baseURL }));
 test(GET(apiClient.novels.ranking), async () => {
   const res = await apiClient.novels.ranking.$get({ query: { limit: 54 } });
   assert(res !== null);
-  //書き出しが一致することを確認
   expect(res[0].title).toEqual('こころ');
-
   const nullRes = await apiClient.novels.ranking.$get({ query: { limit: 0 } });
-  //存在しないworkIdの場合、nullが返ることを確認
   expect(nullRes).toBeNull();
 });

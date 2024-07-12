@@ -2,7 +2,11 @@ import { type Novel } from '@prisma/client';
 import { load } from 'cheerio';
 import { decode } from 'iconv-lite';
 import { transaction } from 'service/prismaClient';
-import { getNovelUrlByWorkId, getNovelsBytotalAccessCount } from '../repository/novelQuery';
+import {
+  getNovelUrlByWorkId,
+  getNovelsByAhthors,
+  getNovelsBytotalAccessCount,
+} from '../repository/novelQuery';
 
 export const novelUseCase = {
   gettext: async (workId: number): Promise<string | null> =>
@@ -16,11 +20,25 @@ export const novelUseCase = {
 
       return $('div.main_text').text().trim();
     }),
+
   ranking: async (limit: number): Promise<Array<Novel & { rank: number }> | null> =>
     transaction('RepeatableRead', async (tx) => {
       const rankings = await getNovelsBytotalAccessCount(tx, limit);
       if (!rankings || rankings.length === 0) return null;
 
       return rankings;
+    }),
+
+  searching: async (
+    search: string | number,
+  ): Promise<Array<{
+    workId: number;
+    title: string;
+    authorSurname: string;
+    authorGivenName: string | null;
+  }> | null> =>
+    transaction('RepeatableRead', async (tx) => {
+      const searchResult = await getNovelsByAhthors(tx, search);
+      return searchResult;
     }),
 };
