@@ -39,7 +39,27 @@ const getNovelById = async (
   return toEntity(tx, prismaNovel);
 };
 
+const getNovelsBytotalAccessCount = async (
+  tx: Prisma.TransactionClient,
+  limit: number,
+): Promise<Array<Novel & { rank: number }>> => {
+  const prismaNovels = await tx.novel.findMany({
+    orderBy: {
+      totalAccessCount: 'desc',
+    },
+    take: limit,
+  });
+
+  if (prismaNovels.length === 0) return [];
+
+  return prismaNovels.map((novel, index) => ({
+    ...novel,
+    rank: index + 1,
+  }));
+};
+
 export const novelQuery = {
   getNovelByWorkId,
   getNovelById,
+  getNovelsBytotalAccessCount,
 };
