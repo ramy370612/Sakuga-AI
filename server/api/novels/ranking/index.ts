@@ -6,7 +6,7 @@ export type Methods = DefineMethods<{
       limit: number;
     };
     resBody: Array<{
-      id: number;
+      id: string;
       workId: number;
       title: string;
       titleReading: string;
