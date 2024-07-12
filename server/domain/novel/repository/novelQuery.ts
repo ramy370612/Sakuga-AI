@@ -98,7 +98,7 @@ const getNovelsByAhthors = async (
 
   const uniqueNovels = Array.from(uniqueNovelsMap.values());
 
-  return uniqueNovels.length > 0 ? uniqueNovels : null;
+  return uniqueNovels;
 };
 
 export { getNovelUrlByWorkId, getNovelsByAhthors, getNovelsBytotalAccessCount };
