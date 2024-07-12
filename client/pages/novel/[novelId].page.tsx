@@ -39,7 +39,7 @@ const Home = () => {
   useEffect(() => {
     setIsLoading(true);
     const fetchNovelData = async () => {
-      const res = await apiClient.novels.body.$get({ query: { id: novelId } });
+      const res = await apiClient.novels.body.$get({ query: { workId: parseInt(novelId) } });
       return res;
     };
 
@@ -60,7 +60,7 @@ const Home = () => {
           <h1>{novelBody.title}</h1>
           <p>{novelBody.authorName}</p>
         </hgroup>
-        <img src={novelBody.paragraphs[readingParagraph]?.imageUrl} alt="" />
+        <img src={novelBody.paragraphs[readingParagraph]?.image?.url} alt="" />
       </div>
       <div className={styles.content} onScroll={handleScroll}>
         {novelBody.paragraphs.map((paragraph, index) => (
