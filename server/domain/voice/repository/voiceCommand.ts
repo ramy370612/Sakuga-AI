@@ -72,11 +72,9 @@ export const voiceCommand = {
     speaker: number,
     workId: number,
   ): Promise<VoiceEntity[]> => {
-    const voices: VoiceEntity[] = [];
-    for (const paragraph of paragraphs) {
-      const voice = await generateAudioQuery(paragraph, speaker, workId);
-      voices.push(voice);
-    }
+    const voices = await Promise.all(
+      paragraphs.map((paragraph) => generateAudioQuery(paragraph, speaker, workId)),
+    );
     return voices;
   },
 };
