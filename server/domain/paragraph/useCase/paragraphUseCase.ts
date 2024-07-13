@@ -19,11 +19,13 @@ const createAndSaveParagraphs = async (
 ): Promise<ParagraphEntity[]> => {
   const createdParagraphs = await paragraphMethod.create(workId);
   const imageGeneratedParagraphs = await paragraphCommand.generateImage(createdParagraphs, workId);
-  imageGeneratedParagraphs.map(async (paragraph) => {
+
+  for (const paragraph of imageGeneratedParagraphs) {
     await transaction('RepeatableRead', async (tx) => {
       await paragraphCommand.save(tx, paragraph, novel.id);
     });
-  });
+  }
+
   return imageGeneratedParagraphs;
 };
 
