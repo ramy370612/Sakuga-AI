@@ -25,6 +25,7 @@
   "dependencies": {
     "@aspida/axios": "^1.14.0",
     "@aws-amplify/ui-react": "^6.1.12",
+    "@fontsource/zen-old-mincho": "^5.0.13",
     "aspida": "^1.14.0",
     "aws-amplify": "^6.3.6",
     "axios": "^1.6.8",
