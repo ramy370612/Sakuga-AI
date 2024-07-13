@@ -24,9 +24,16 @@ const Home = () => {
     const searchParam = router.query.search;
     return Array.isArray(searchParam) ? searchParam[0] : searchParam;
   }, [router.query.search]);
+  if (searchParams !== undefined) {
+    const fetch = async () => {
+      const res = await apiClient.novels.search.$get({ query: { searchParams } });
+      return res ?? [];
+    };
 
-  if (searchParams === undefined) {
-    console.log(1);
+    fetch()
+      .then(setSearchResults)
+      .catch(catchApiErr)
+      .finally(() => setLoading(false));
   }
 
   const handleclick = () => {
