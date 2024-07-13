@@ -39,7 +39,7 @@ const Home = () => {
   useEffect(() => {
     setIsLoading(true);
     const fetchNovelData = async () => {
-      const res = await apiClient.novels.body.$get({ query: { id: 'mock' } });
+      const res = await apiClient.novels.body.mock.$get({ query: { id: 'mock' } });
       return res;
     };
 
