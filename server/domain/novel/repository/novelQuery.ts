@@ -1,4 +1,5 @@
 import type { Novel, Prisma } from '@prisma/client';
+import type { EntityId } from 'api/@types/brandedId';
 import type { NovelBodyEntity, NovelInfo } from 'api/@types/novel';
 import { paragraphQuery } from 'domain/paragraph/repository/paragraphQuery';
 import { brandedId } from 'service/brandedId';
@@ -21,6 +22,18 @@ const getNovelByWorkId = async (
 ): Promise<NovelBodyEntity | null> => {
   const prismaNovel = await tx.novel.findFirst({
     where: { workId },
+  });
+  if (prismaNovel === null) return null;
+
+  return toEntity(tx, prismaNovel);
+};
+
+const getNovelById = async (
+  tx: Prisma.TransactionClient,
+  id: EntityId['novel'],
+): Promise<NovelBodyEntity | null> => {
+  const prismaNovel = await tx.novel.findFirst({
+    where: { id },
   });
   if (prismaNovel === null) return null;
 
@@ -85,4 +98,5 @@ export const novelQuery = {
   getNovelByWorkId,
   getNovelsByAhthors,
   getNovelsBytotalAccessCount,
+  getNovelById,
 };

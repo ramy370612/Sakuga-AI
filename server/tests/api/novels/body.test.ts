@@ -1,6 +1,7 @@
 import aspida from '@aspida/axios';
 import api from 'api/$api';
 import axios from 'axios';
+import { novelUseCase } from 'domain/novel/useCase/novelUseCase';
 import { HttpResponse, http } from 'msw';
 import { setupServer } from 'msw/node';
 import { API_BASE_PATH, PORT } from 'service/envValues';
@@ -50,19 +51,22 @@ const mockserver = setupServer(
 );
 
 test(GET(apiClient.novels.body.mock), async () => {
-  const res = await apiClient.novels.body.mock.get({ query: { workId: 45630 } });
+  const res = await apiClient.novels.body.mock.get({ query: { id: 'mock' } });
   expect(res.status).toEqual(200);
 });
 
 test(GET(apiClient.novels.body), async () => {
   mockserver.listen();
-  const res = await apiClient.novels.body.get({ query: { workId: 45630 } });
+  const ranking = await novelUseCase.ranking(3);
+  if (!ranking) return;
+  console.log(ranking[0].id);
+  const res = await apiClient.novels.body.get({ query: { id: ranking[1].id } });
   expect(res.status).toEqual(200);
 
-  const res2 = await apiClient.novels.body.$get({ query: { workId: 45630 } });
-  expect(res2?.workId).toEqual(45630);
+  const res2 = await apiClient.novels.body.get({ query: { id: ranking[1].id } });
+  expect(res2.status).toEqual(200);
 
-  const nullRes = await apiClient.novels.body.$get({ query: { workId: 99999999 } });
+  const nullRes = await apiClient.novels.body.$get({ query: { id: '99999999' } });
   expect(nullRes).toBeNull();
   mockserver.close();
 });

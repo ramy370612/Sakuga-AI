@@ -4,7 +4,7 @@ import type { DefineMethods } from 'aspida';
 export type Methods = DefineMethods<{
   get: {
     query: {
-      workId: number;
+      id: string;
     };
     resBody: NovelBodyEntity | null;
   };
