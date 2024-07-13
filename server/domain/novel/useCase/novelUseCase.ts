@@ -22,7 +22,7 @@ export const novelUseCase = {
       return $('div.main_text').text().trim();
     }),
 
-  ranking: async (limit: number): Promise<Array<Novel & { rank: number }> | null> =>
+  ranking: async (limit: number): Promise<(Novel & { rank: number })[] | null> =>
     transaction('RepeatableRead', async (tx) => {
       const rankings = await getNovelsBytotalAccessCount(tx, limit);
       if (!rankings || rankings.length === 0) return null;
