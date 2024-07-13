@@ -1,3 +1,4 @@
+import type { NovelInfo } from 'api/@types/novel';
 import { useLoading } from 'components/loading/useLoading';
 import { useCatchApiErr } from 'hooks/useCatchApiErr';
 import Link from 'next/link';
@@ -12,7 +13,7 @@ const Home = () => {
   const [rankings, setRankings] = useState<
     UnwrapPromise<ReturnType<typeof apiClient.novels.ranking.$get>>
   >([]);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<NovelInfo[]>([]);
   const [searchInput, setSearchInput] = useState('');
   const router = useRouter();
   const catchApiErr = useCatchApiErr();
@@ -24,17 +25,6 @@ const Home = () => {
     const searchParam = router.query.search;
     return Array.isArray(searchParam) ? searchParam[0] : searchParam;
   }, [router.query.search]);
-  if (searchParams !== undefined) {
-    const fetch = async () => {
-      const res = await apiClient.novels.search.$get({ query: { searchParams } });
-      return res ?? [];
-    };
-
-    fetch()
-      .then(setSearchResults)
-      .catch(catchApiErr)
-      .finally(() => setLoading(false));
-  }
 
   const handleclick = () => {
     router.push({ query: { search: searchInput } });
@@ -42,18 +32,21 @@ const Home = () => {
 
   useEffect(() => {
     setLoading(true);
-    const fetch = async () => {
-      const res = await apiClient.novels.ranking.$get({ query: { limit: 10 } });
-      return res ?? [];
+
+    const fetchData = async () => {
+      if (searchParams === undefined) {
+        const res = await apiClient.novels.ranking.$get({ query: { limit: 12 } });
+        setRankings(res ?? []);
+      } else {
+        const res = await apiClient.novels.search.$get({ query: { searchParams } });
+        setSearchResults(res);
+      }
     };
 
-    fetch()
-      .then(setRankings)
+    fetchData()
       .catch(catchApiErr)
       .finally(() => setLoading(false));
-
-    return () => setRankings([]);
-  }, [catchApiErr, setLoading]);
+  }, [catchApiErr, setLoading, searchParams]);
 
   return (
     <div className={styles.container}>
@@ -83,23 +76,35 @@ const Home = () => {
         </h2>
         <br />
         <div className={styles.section}>
-          {searchResults.length <= 0 &&
-            rankings?.map((novel) => (
-              <Link key={novel.id} className={styles.novelContainer} href={`/novel/${novel.id}`}>
-                <div className={styles.novelCard}>
-                  <div className={styles.novelImage}>
-                    <img
-                      src="https://placehold.jp/150x150.png"
-                      alt={`${novel.title}'s thumbnail`}
-                    />
+          {searchResults.length <= 0
+            ? rankings?.map((novel) => (
+                <Link key={novel.id} className={styles.novelContainer} href={`/novel/${novel.id}`}>
+                  <div className={styles.novelCard}>
+                    <div className={styles.novelImage}>
+                      <img
+                        src="https://placehold.jp/150x150.png"
+                        alt={`${novel.title}'s thumbnail`}
+                      />
+                    </div>
+                    <div>
+                      <h3>{novel.title}</h3>
+                      <p>{`${novel.authorSurname} ${novel.authorGivenName}`.trim()}</p>
+                    </div>
                   </div>
-                  <div>
+                </Link>
+              ))
+            : searchResults.map((novel) => (
+                <Link
+                  key={novel.title}
+                  className={styles.novelContainer}
+                  href={`/novel/${novel.id}`}
+                >
+                  <div className={styles.novelCard}>
                     <h3>{novel.title}</h3>
                     <p>{`${novel.authorSurname} ${novel.authorGivenName}`.trim()}</p>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
         </div>
       </div>
     </div>
