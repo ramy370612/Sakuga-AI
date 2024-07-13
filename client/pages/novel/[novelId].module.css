@@ -13,6 +13,40 @@
   padding: 4svmin max(4svmin, 50svw - 64svmin);
 }
 
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  gap: 4svmin;
+  place-items: center center;
+  width: 100%;
+  padding: 1svmin 4svmin;
+  border-bottom: solid 1px #eee;
+}
+
+.header > h1 {
+  width: fit-content;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.header > a {
+  display: flex;
+  gap: 1svmin;
+  align-items: center;
+  width: fit-content;
+  padding: 8px;
+  color: #333;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.header > a:hover {
+  background-color: #eee9;
+}
+
 .image {
   display: flex;
   flex-direction: column;
