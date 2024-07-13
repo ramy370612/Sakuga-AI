@@ -1,3 +1,4 @@
+import { APP_NAME } from 'api/@constants';
 import type { NovelInfo, RankingInfo } from 'api/@types/novel';
 import { useLoading } from 'components/loading/useLoading';
 import { useCatchApiErr } from 'hooks/useCatchApiErr';
@@ -57,7 +58,7 @@ const Home = () => {
     <div className={styles.container}>
       {loadingElm}
       <div>
-        <h1 className={styles.title}>Sakuga AI</h1>
+        <h1 className={styles.title}>{APP_NAME}</h1>
       </div>
       <div className={styles.search}>
         <input
