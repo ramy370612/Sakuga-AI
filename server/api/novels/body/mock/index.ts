@@ -6,6 +6,6 @@ export type Methods = DefineMethods<{
     query: {
       id: string;
     };
-    resBody: NovelBodyEntity | null;
+    resBody: NovelBodyEntity;
   };
 }>;

@@ -43,6 +43,16 @@ export const s3 = {
 
     await s3Client.send(command);
   },
+  putWithBuffer: async (key: string, buffer: Buffer, contentType: string): Promise<void> => {
+    const command = new PutObjectCommand({
+      Bucket: S3_BUCKET,
+      Key: key,
+      Body: buffer,
+      ContentType: contentType,
+    });
+
+    await s3Client.send(command);
+  },
   delete: async (key: string): Promise<void> => {
     const command = new DeleteObjectCommand({ Bucket: S3_BUCKET, Key: key });
 

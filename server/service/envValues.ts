@@ -14,12 +14,14 @@ const S3_BUCKET = z.string().parse(process.env.S3_BUCKET ?? '');
 const S3_ACCESS_KEY = z.string().parse(process.env.S3_ACCESS_KEY ?? '');
 const S3_SECRET_KEY = z.string().parse(process.env.S3_SECRET_KEY ?? '');
 const S3_REGION = z.string().parse(process.env.S3_REGION ?? '');
+const OPENAI_API_KEY = z.string().parse(process.env.OPENAI_API_KEY ?? '');
 
 export {
   API_BASE_PATH,
   COGNITO_POOL_ENDPOINT,
   COGNITO_USER_POOL_CLIENT_ID,
   COGNITO_USER_POOL_ID,
+  OPENAI_API_KEY,
   PORT,
   S3_ACCESS_KEY,
   S3_BUCKET,

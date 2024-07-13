@@ -1,6 +1,7 @@
 import { prismaClient } from 'service/prismaClient';
 
 import type { AozoraWork } from 'api/@types/novel';
+import { ulid } from 'ulid';
 import aozoraBookList from '../data/aozoraBookList.json';
 
 const bookDataList = aozoraBookList as AozoraWork[];
@@ -15,6 +16,7 @@ async function main(): Promise<void> {
   for (const bookData of booksToProcess) {
     await prismaClient.novel.create({
       data: {
+        id: ulid(),
         workId: bookData['作品ID'],
         title: bookData['作品名'],
         titleReading: bookData['作品名読み'],

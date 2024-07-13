@@ -7,7 +7,7 @@ export type Methods = DefineMethods<{
     };
     resBody:
       | {
-          id: number;
+          id: string;
           workId: number;
           title: string;
           titleReading: string;

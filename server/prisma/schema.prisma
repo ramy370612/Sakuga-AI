@@ -26,7 +26,7 @@ model Task {
 }
 
 model Novel {
-  id                         Int     @id @default(autoincrement())
+  id                         String      @id
   workId                     Int
   title                      String
   titleReading               String //読み仮名
@@ -46,4 +46,15 @@ model Novel {
   openingSentence            String?
   totalAccessCount           Int
   htmlFileUrl                String
+  Paragraph                  Paragraph[]
+}
+
+model Paragraph {
+  novelId   String
+  index     Int
+  content String
+  imageKey  String
+  Novel     Novel   @relation(fields: [novelId], references: [id])
+
+  @@id([novelId, index])
 }
