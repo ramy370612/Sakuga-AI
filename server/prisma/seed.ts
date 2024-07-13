@@ -10,7 +10,10 @@ async function main(): Promise<void> {
   const count = await prismaClient.novel.count();
   if (count > 0) return;
 
-  for (const bookData of bookDataList) {
+  const isTestEnv = process.env.NODE_ENV === 'test';
+  const booksToProcess = isTestEnv ? bookDataList.slice(0, 100) : bookDataList;
+
+  for (const bookData of booksToProcess) {
     await prismaClient.novel.create({
       data: {
         id: ulid(),
