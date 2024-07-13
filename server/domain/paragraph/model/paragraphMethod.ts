@@ -41,23 +41,19 @@ import { novelUseCase } from 'domain/novel/useCase/novelUseCase';
 
 export const paragraphMethod = {
   create: async (workId: number): Promise<ParagraphEntity[]> => {
-    const paragraphs: ParagraphEntity[] = [];
-
     const novelText = await novelUseCase.gettext(workId);
     assert(novelText !== null);
     const splitStringByLength = (str: string, length: number): string[] =>
       Array.from({ length: Math.ceil(str.length / length) }, (_, i) =>
         str.slice(i * length, (i + 1) * length),
       );
-    const separatedParagraphs = splitStringByLength(novelText, 400);
+    const separatedText = splitStringByLength(novelText, 400);
 
-    separatedParagraphs.map((content, index) => {
-      paragraphs.push({
-        index,
-        content,
-        image: { url: '', s3Key: '' },
-      });
-    });
+    const paragraphs: ParagraphEntity[] = separatedText.map((content, index) => ({
+      index,
+      content,
+      image: { url: '', s3Key: '' },
+    }));
 
     return paragraphs;
   },
