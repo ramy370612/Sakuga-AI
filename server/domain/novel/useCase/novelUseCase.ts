@@ -13,6 +13,8 @@ export const novelUseCase = {
       const buffer = await response.arrayBuffer();
       const html = decode(Buffer.from(buffer), 'Shift_JIS');
       const $ = load(html);
+      $('rt').remove();
+      $('rp').remove();
 
       return $('div.main_text').text().trim();
     }),
