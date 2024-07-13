@@ -74,7 +74,7 @@ const Home = () => {
                 <div className={styles.novelCard}>
                   <div className={styles.novelImage}>
                     <img
-                      src="https://placehold.jp/150x150.png"
+                      src={`/images/ranking${novel.rank}.webp`}
                       alt={`${novel.title}'s thumbnail`}
                     />
                   </div>
