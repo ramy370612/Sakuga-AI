@@ -82,7 +82,7 @@ const Home = () => {
                   <div className={styles.novelCard}>
                     <div className={styles.novelImage}>
                       <img
-                        src={`/images/ranking${novel.rank}.webp`}
+                        src={`/images/novels/${novel.workId}.webp`}
                         alt={`${novel.title}'s thumbnail`}
                       />
                     </div>
