@@ -15,7 +15,7 @@ const promptResponseSchema = z.object({
 
 type PromptResponse = z.infer<typeof promptResponseSchema>;
 
-const uploadImageToS3 = async (key: string, image: Blob): Promise<void> => {
+const uploadToS3 = async (key: string, image: Blob): Promise<void> => {
   const blobToBuffer = async (blob: Blob): Promise<Buffer> => {
     const arrayBuffer = await blob.arrayBuffer();
     return Buffer.from(arrayBuffer);
@@ -71,25 +71,31 @@ export const paragraphCommand = {
   ): Promise<ParagraphEntity[]> => {
     const updatedParagraphs: ParagraphEntity[] = [];
 
-    //並列処理するとAPIのリクエスト制限に引っかかるので、順次処理で
-    for (const paragraph of paragraphs) {
-      const prompt = await paragraphToPrompt(paragraph);
-      const dalle3Tool = new DallEAPIWrapper({
-        n: 1,
-        model: 'dall-e-3',
-        apiKey: OPENAI_API_KEY,
-        size: '1792x1024',
-      });
-      const imageURL = await dalle3Tool.invoke(prompt);
+    for (let i = 0; i < paragraphs.length; i += 2) {
+      const chunk = paragraphs.slice(i, i + 2);
 
-      const imageBlob = await downloadImage(imageURL);
-      const key = `novels/images/${workId}/${paragraph.index}.png`;
-      await uploadImageToS3(key, imageBlob);
-      const updatedParagraph = {
-        ...paragraph,
-        image: { url: await s3.getSignedUrl(key), s3Key: key },
-      };
-      updatedParagraphs.push(updatedParagraph);
+      const promises = chunk.map(async (paragraph) => {
+        const generatedPrompt = await paragraphToPrompt(paragraph);
+        console.log(generatedPrompt);
+        const dalle3Tool = new DallEAPIWrapper({
+          n: 1,
+          model: 'dall-e-3',
+          apiKey: OPENAI_API_KEY,
+          size: '1792x1024',
+        });
+        const imageURL = await dalle3Tool.invoke(generatedPrompt.prompt);
+        const imageBlob = await downloadImage(imageURL);
+        const key = `novels/images/${workId}/${paragraph.index}.png`;
+        await uploadToS3(key, imageBlob);
+        const updatedParagraph = {
+          ...paragraph,
+          image: { url: await s3.getSignedUrl(key), s3Key: key },
+        };
+        return updatedParagraph;
+      });
+
+      const results = await Promise.all(promises);
+      updatedParagraphs.push(...results);
     }
 
     return updatedParagraphs;
