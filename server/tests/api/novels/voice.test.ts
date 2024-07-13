@@ -74,11 +74,12 @@ const mockserver = setupServer(
 );
 
 test(GET(apiClient.novels.voice), async () => {
-  const ranking = await novelUseCase.ranking(3);
+  const ranking = await novelUseCase.ranking(5);
   if (!ranking) return;
 
   mockserver.listen();
 
+  //パラグラフを生成する
   await apiClient.novels.body.$get({ query: { id: ranking[1].id } });
 
   const res = await apiClient.novels.voice.get({
@@ -91,7 +92,7 @@ test(GET(apiClient.novels.voice), async () => {
   });
   expect(res2.status).toEqual(200);
 
-  const nullRes = await apiClient.novels.voice.$get({ query: { id: 'null' } });
-  expect(nullRes).not.toBeNull;
+  const nullRes = await apiClient.novels.voice.$get({ query: { id: 'mock' } });
+  expect(nullRes).toBeNull;
   mockserver.close();
 });
