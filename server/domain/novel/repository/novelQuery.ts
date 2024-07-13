@@ -1,6 +1,6 @@
 import type { Novel, Prisma } from '@prisma/client';
 import type { EntityId } from 'api/@types/brandedId';
-import type { NovelBodyEntity, NovelInfo } from 'api/@types/novel';
+import type { NovelBodyEntity, NovelInfo, RankingInfo } from 'api/@types/novel';
 import { paragraphQuery } from 'domain/paragraph/repository/paragraphQuery';
 import { brandedId } from 'service/brandedId';
 
@@ -43,7 +43,7 @@ const getNovelById = async (
 const getNovelsBytotalAccessCount = async (
   tx: Prisma.TransactionClient,
   limit: number,
-): Promise<(Novel & { rank: number })[]> => {
+): Promise<RankingInfo[]> => {
   const prismaNovels = await tx.novel.findMany({
     orderBy: {
       totalAccessCount: 'desc',
@@ -56,6 +56,7 @@ const getNovelsBytotalAccessCount = async (
   return prismaNovels.map((novel, index) => ({
     ...novel,
     rank: index + 1,
+    id: brandedId.novel.entity.parse(novel.id),
   }));
 };
 
