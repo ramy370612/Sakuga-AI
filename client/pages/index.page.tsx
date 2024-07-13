@@ -22,12 +22,16 @@ const Home = () => {
   // 検索するキーワードをsearchパラメータとして保持し、それをもとに検索を行う
   const searchParams = useMemo(() => {
     const searchParam = router.query.search;
-    return Array.isArray(searchParam)
-      ? searchParam
-      : searchParam !== undefined
-        ? [searchParam]
-        : [];
+    return Array.isArray(searchParam) ? searchParam[0] : searchParam;
   }, [router.query.search]);
+
+  if (searchParams === undefined) {
+    console.log(1);
+  }
+
+  const handleclick = () => {
+    router.push({ query: { search: searchInput } });
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -58,7 +62,11 @@ const Home = () => {
           value={searchInput}
           onChange={(e) => setSearchInput(e.currentTarget.value)}
         />
-        <button className={styles.searchButton} disabled={searchInput.trim().length <= 0}>
+        <button
+          className={styles.searchButton}
+          disabled={searchInput.trim().length <= 0}
+          onClick={handleclick}
+        >
           検索
         </button>
       </div>
