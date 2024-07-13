@@ -90,8 +90,8 @@ test(GET(apiClient.novels.voice), async () => {
     query: { id: ranking[1].id },
   });
   expect(res2.status).toEqual(200);
-  
-  const nullRes = await apiClient.novels.body.$get({ query: { id: '99999999' } });
+
+  const nullRes = await apiClient.novels.voice.$get({ query: { id: 'null' } });
   expect(nullRes).not.toBeNull;
   mockserver.close();
 });
