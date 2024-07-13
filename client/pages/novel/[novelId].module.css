@@ -22,7 +22,7 @@
   gap: 4svmin;
   place-items: center center;
   width: 100%;
-  padding: 1svmin 4svmin;
+  padding-block: 1svmin;
   border-bottom: solid 1px #eee;
 }
 
@@ -86,6 +86,11 @@
   .container {
     flex-direction: column;
     gap: 8svmin;
+    padding-top: 64px;
+  }
+
+  .header > a > span {
+    display: none;
   }
 
   .image {

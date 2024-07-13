@@ -60,9 +60,9 @@ const Home = () => {
       <header className={styles.header}>
         <Link href="/">
           <ArrowLeft size="1.2rem" />
-          作品一覧
+          <span>作品一覧</span>
         </Link>
-        <h1>SakugaAI - {novelBody.title}</h1>
+        <h1>SakugaAI</h1>
         <Link href="https://github.com/ramy370612/Sakuga-AI">
           <Github size="1.2rem" />
         </Link>
