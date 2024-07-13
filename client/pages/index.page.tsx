@@ -4,6 +4,8 @@ import { useCatchApiErr } from 'hooks/useCatchApiErr';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
+import type { StaticPath } from 'utils/$path';
+import { staticPath } from 'utils/$path';
 import { apiClient } from 'utils/apiClient';
 import styles from './index.module.css';
 
@@ -25,6 +27,13 @@ const Home = () => {
     const searchParam = router.query.search;
     return Array.isArray(searchParam) ? searchParam[0] : searchParam;
   }, [router.query.search]);
+
+  const rankingWithThumbnail = useMemo(() => {
+    return rankings.map((novel) => ({
+      ...novel,
+      thumbnailName: `$${novel.workId}_webp` as keyof StaticPath['images']['novels'],
+    }));
+  }, [rankings]);
 
   const handleclick = () => {
     router.push({ query: { search: searchInput } });
@@ -77,12 +86,12 @@ const Home = () => {
         <br />
         <div className={styles.section}>
           {searchResults.length <= 0
-            ? rankings?.map((novel) => (
+            ? rankingWithThumbnail?.map((novel) => (
                 <Link key={novel.id} className={styles.novelContainer} href={`/novel/${novel.id}`}>
                   <div className={styles.novelCard}>
                     <div className={styles.novelImage}>
                       <img
-                        src={`/images/novels/${novel.workId}.webp`}
+                        src={staticPath.images.novels[novel.thumbnailName]}
                         alt={`${novel.title}'s thumbnail`}
                       />
                     </div>
