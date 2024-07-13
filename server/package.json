@@ -23,7 +23,7 @@
     "migrate:deploy": "prisma migrate deploy && npx prisma db seed",
     "migrate:reset": "prisma migrate reset",
     "start": "node --enable-source-maps index.js",
-    "test": "vitest run --coverage",
+    "test": "NODE_ENV=test vitest run --coverage",
     "typecheck": "tsc --noEmit"
   },
   "prisma": {
