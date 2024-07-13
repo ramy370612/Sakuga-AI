@@ -47,14 +47,25 @@ model Novel {
   totalAccessCount           Int
   htmlFileUrl                String
   Paragraph                  Paragraph[]
+  Voice                      Voice[]
 }
 
 model Paragraph {
-  novelId   String
-  index     Int
-  content String
-  imageKey  String
-  Novel     Novel   @relation(fields: [novelId], references: [id])
+  novelId  String
+  index    Int
+  content  String
+  imageKey String
+  Novel    Novel  @relation(fields: [novelId], references: [id])
+
+  @@id([novelId, index])
+}
+
+model Voice {
+  novelId  String
+  index    Int
+  speaker  Int
+  voiceKey String
+  Novel    Novel  @relation(fields: [novelId], references: [id])
 
   @@id([novelId, index])
 }

@@ -1,3 +1,4 @@
+import { APP_NAME } from 'api/@constants';
 import type { NovelBodyEntity } from 'api/@types/novel';
 import { useCatchApiErr } from 'hooks/useCatchApiErr';
 import { ArrowLeft, Github } from 'lucide-react';
@@ -62,7 +63,7 @@ const Home = () => {
           <ArrowLeft size="1.2rem" />
           <span>作品一覧</span>
         </Link>
-        <h1>SakugaAI</h1>
+        <h1>{APP_NAME}</h1>
         <Link href="https://github.com/ramy370612/Sakuga-AI">
           <Github size="1.2rem" />
         </Link>
