@@ -8,7 +8,7 @@ import { downloadImage } from 'service/downloadImage';
 import { OPENAI_API_KEY } from 'service/envValues';
 import { s3 } from 'service/s3Client';
 
-const uploadToS3 = async (key: string, image: Blob): Promise<void> => {
+const uploadImageToS3 = async (key: string, image: Blob): Promise<void> => {
   const blobToBuffer = async (blob: Blob): Promise<Buffer> => {
     const arrayBuffer = await blob.arrayBuffer();
     return Buffer.from(arrayBuffer);
@@ -73,7 +73,7 @@ export const paragraphCommand = {
 
       const imageBlob = await downloadImage(imageURL);
       const key = `novels/images/${workId}/${paragraph.index}.png`;
-      await uploadToS3(key, imageBlob);
+      await uploadImageToS3(key, imageBlob);
       const updatedParagraph = {
         ...paragraph,
         image: { url: await s3.getSignedUrl(key), s3Key: key },
