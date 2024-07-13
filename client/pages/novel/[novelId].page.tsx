@@ -1,5 +1,7 @@
 import type { NovelBodyEntity } from 'api/@types/novel';
 import { useCatchApiErr } from 'hooks/useCatchApiErr';
+import { ArrowLeft, Github } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { UIEvent } from 'react';
 import { useEffect, useMemo, useState } from 'react';
@@ -55,6 +57,16 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
+      <header className={styles.header}>
+        <Link href="/">
+          <ArrowLeft size="1.2rem" />
+          <span>作品一覧</span>
+        </Link>
+        <h1>SakugaAI</h1>
+        <Link href="https://github.com/ramy370612/Sakuga-AI">
+          <Github size="1.2rem" />
+        </Link>
+      </header>
       <div className={styles.image}>
         <hgroup>
           <h1>{novelBody.title}</h1>

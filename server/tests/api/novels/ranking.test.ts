@@ -17,5 +17,5 @@ test(GET(apiClient.novels.ranking), async () => {
   assert(res !== null);
   expect(res[0].title).toEqual('こころ');
   const nullRes = await apiClient.novels.ranking.$get({ query: { limit: 0 } });
-  expect(nullRes).toBeNull();
+  expect(nullRes).toEqual([]);
 });

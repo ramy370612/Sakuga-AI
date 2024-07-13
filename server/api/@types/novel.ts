@@ -11,9 +11,34 @@ export type NovelBodyEntity = {
 };
 
 export type NovelInfo = {
+  id: EntityId['novel'];
   title: string;
   authorSurname: string;
   authorGivenName: string | null;
+};
+
+export type RankingInfo = {
+  id: EntityId['novel'];
+  workId: number;
+  title: string;
+  titleReading: string;
+  sortReading: string | null;
+  publicationDate: string;
+  lastUpdateDate: string;
+  cardUrl: string;
+  authorSurname: string;
+  authorGivenName: string | null;
+  authorSurnameReading: string;
+  authorGivenNameReading: string | null;
+  authorSurnameSortReading: string;
+  authorGivenNameSortReading: string | null;
+  authorSurnameRomaji: string;
+  authorGivenNameRomaji: string | null;
+  characterCount: number | null;
+  openingSentence: string | null;
+  totalAccessCount: number;
+  htmlFileUrl: string;
+  rank: number;
 };
 
 export type AozoraWork = {
