@@ -1,4 +1,4 @@
-import type { NovelInfo } from 'api/@types/novel';
+import type { NovelInfo, RankingInfo } from 'api/@types/novel';
 import { useLoading } from 'components/loading/useLoading';
 import { useCatchApiErr } from 'hooks/useCatchApiErr';
 import Link from 'next/link';
@@ -9,12 +9,8 @@ import { staticPath } from 'utils/$path';
 import { apiClient } from 'utils/apiClient';
 import styles from './index.module.css';
 
-type UnwrapPromise<T extends Promise<unknown>> = T extends Promise<infer U> ? U : never;
-
 const Home = () => {
-  const [rankings, setRankings] = useState<
-    UnwrapPromise<ReturnType<typeof apiClient.novels.ranking.$get>>
-  >([]);
+  const [rankings, setRankings] = useState<RankingInfo[]>([]);
   const [searchResults, setSearchResults] = useState<NovelInfo[]>([]);
   const [searchInput, setSearchInput] = useState('');
   const router = useRouter();
