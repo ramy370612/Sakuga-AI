@@ -15,6 +15,7 @@ const S3_ACCESS_KEY = z.string().parse(process.env.S3_ACCESS_KEY ?? '');
 const S3_SECRET_KEY = z.string().parse(process.env.S3_SECRET_KEY ?? '');
 const S3_REGION = z.string().parse(process.env.S3_REGION ?? '');
 const OPENAI_API_KEY = z.string().parse(process.env.OPENAI_API_KEY ?? '');
+const VOICEVOX_URL = z.string().parse(process.env.VOICEVOX_URL ?? '');
 
 export {
   API_BASE_PATH,
@@ -28,4 +29,5 @@ export {
   S3_ENDPOINT,
   S3_REGION,
   S3_SECRET_KEY,
+  VOICEVOX_URL,
 };
