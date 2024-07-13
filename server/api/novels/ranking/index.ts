@@ -1,3 +1,4 @@
+import type { Novel } from '@prisma/client';
 import type { DefineMethods } from 'aspida';
 
 export type Methods = DefineMethods<{
@@ -5,30 +6,6 @@ export type Methods = DefineMethods<{
     query: {
       limit: number;
     };
-    resBody:
-      | {
-          id: number;
-          workId: number;
-          title: string;
-          titleReading: string;
-          sortReading: string | null;
-          publicationDate: string;
-          lastUpdateDate: string;
-          cardUrl: string;
-          authorSurname: string;
-          authorGivenName: string | null;
-          authorSurnameReading: string;
-          authorGivenNameReading: string | null;
-          authorSurnameSortReading: string;
-          authorGivenNameSortReading: string | null;
-          authorSurnameRomaji: string;
-          authorGivenNameRomaji: string | null;
-          characterCount: number | null;
-          openingSentence: string | null;
-          totalAccessCount: number;
-          htmlFileUrl: string;
-          rank: number;
-        }[]
-      | null;
+    resBody: (Novel & { rank: number })[] | null;
   };
 }>;
