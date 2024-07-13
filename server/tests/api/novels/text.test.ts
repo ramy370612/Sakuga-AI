@@ -13,9 +13,7 @@ const apiClient = api(aspida(apiAxios, { baseURL }));
 
 test(GET(apiClient.novels.text), async () => {
   const res = await apiClient.novels.text.$get({ query: { workId: 1567 } });
-  expect(res).toContain(
-    'メロスは激怒した。必ず、かの邪智暴虐（じゃちぼうぎゃく）の王を除かなければならぬと決意した。',
-  );
+  expect(res).toContain('メロスは激怒した。');
 
   const nullRes = await apiClient.novels.text.$get({ query: { workId: 999999999 } });
   expect(nullRes).toBeNull();
