@@ -11,6 +11,7 @@ export type NovelBodyEntity = {
 };
 
 export type NovelInfo = {
+  id: EntityId['novel'];
   title: string;
   authorSurname: string;
   authorGivenName: string | null;

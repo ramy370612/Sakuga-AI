@@ -85,13 +85,17 @@ const getNovelsByAhthors = async (
       workId: 'asc',
     },
     select: {
+      id: true,
       title: true,
       authorSurname: true,
       authorGivenName: true,
     },
   });
 
-  return prismaNovels;
+  return prismaNovels.map((novel) => ({
+    ...novel,
+    id: brandedId.novel.entity.parse(novel.id),
+  }));
 };
 
 export const novelQuery = {
