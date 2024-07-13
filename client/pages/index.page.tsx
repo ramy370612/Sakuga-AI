@@ -18,8 +18,6 @@ const Home = () => {
   const catchApiErr = useCatchApiErr();
   const { loadingElm, setLoading } = useLoading();
 
-  // `/?search=hoge` -> `['hoge']` のように、searchパラメータを配列で取得
-  // 検索するキーワードをsearchパラメータとして保持し、それをもとに検索を行う
   const searchParams = useMemo(() => {
     const searchParam = router.query.search;
     return Array.isArray(searchParam) ? searchParam[0] : searchParam;
