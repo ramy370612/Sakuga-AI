@@ -77,7 +77,7 @@ const Home = () => {
           <button
             className={styles.searchButton}
             disabled={searchInput.trim().length <= 0}
-            onClick={handleclick}
+            onClick={clickHandler}
           >
             検索
           </button>
