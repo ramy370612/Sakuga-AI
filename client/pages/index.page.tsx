@@ -53,6 +53,7 @@ const Home = () => {
         setRankings(res ?? []);
       } else {
         const res = await apiClient.novels.search.$get({ query: { searchParams } });
+
         setSearchResults(res);
       }
     };
@@ -90,11 +91,11 @@ const Home = () => {
       </div>
       <div>
         <h2 className={styles.sectionLabel}>
-          {searchResults.length <= 0 ? '人気作品' : '検索結果'}
+          {searchParams === undefined ? '人気作品' : '検索結果'}
         </h2>
         <br />
         <div className={styles.section}>
-          {searchResults.length <= 0
+          {searchParams === undefined
             ? rankingWithThumbnail?.map((novel) => (
                 <Link key={novel.id} className={styles.novelContainer} href={`/novel/${novel.id}`}>
                   <div className={styles.novelCard}>
@@ -111,18 +112,20 @@ const Home = () => {
                   </div>
                 </Link>
               ))
-            : searchResults.map((novel) => (
-                <Link
-                  key={novel.title}
-                  className={styles.novelContainer}
-                  href={`/novel/${novel.id}`}
-                >
-                  <div className={styles.novelCard}>
-                    <h3>{novel.title}</h3>
-                    <p>{`${novel.authorSurname} ${novel.authorGivenName}`.trim()}</p>
-                  </div>
-                </Link>
-              ))}
+            : searchResults.length === 0
+              ? '検索結果がありません'
+              : searchResults.map((novel) => (
+                  <Link
+                    key={novel.title}
+                    className={styles.novelContainer}
+                    href={`/novel/${novel.id}`}
+                  >
+                    <div className={styles.novelCard}>
+                      <h3>{novel.title}</h3>
+                      <p>{`${novel.authorSurname} ${novel.authorGivenName}`.trim()}</p>
+                    </div>
+                  </Link>
+                ))}
         </div>
       </div>
     </div>
