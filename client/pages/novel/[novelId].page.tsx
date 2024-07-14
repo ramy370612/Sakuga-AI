@@ -63,7 +63,10 @@ const Home = () => {
           <ArrowLeft size="1.2rem" />
           <span>作品一覧</span>
         </Link>
-        <h1>{APP_NAME}</h1>
+        <Link href="/">
+          <h1>{APP_NAME}</h1>
+        </Link>
+
         <Link href="https://github.com/ramy370612/Sakuga-AI">
           <Github size="1.2rem" />
         </Link>
