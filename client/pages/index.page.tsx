@@ -55,24 +55,24 @@ const Home = () => {
   return (
     <div className={styles.container}>
       {loadingElm}
-      <div>
+      <div className={styles.header}>
         <h1 className={styles.title}>{APP_NAME}</h1>
-      </div>
-      <div className={styles.search}>
-        <input
-          className={styles.searchInput}
-          type="text"
-          placeholder="作品検索"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.currentTarget.value)}
-        />
-        <button
-          className={styles.searchButton}
-          disabled={searchInput.trim().length <= 0}
-          onClick={handleclick}
-        >
-          検索
-        </button>
+        <div className={styles.search}>
+          <input
+            className={styles.searchInput}
+            type="text"
+            placeholder="作品検索"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.currentTarget.value)}
+          />
+          <button
+            className={styles.searchButton}
+            disabled={searchInput.trim().length <= 0}
+            onClick={handleclick}
+          >
+            検索
+          </button>
+        </div>
       </div>
       <div>
         <h2 className={styles.sectionLabel}>
