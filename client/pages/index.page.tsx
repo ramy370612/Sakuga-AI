@@ -88,6 +88,7 @@ const Home = () => {
           {searchResults.length <= 0 ? '人気作品' : '検索結果'}
         </h2>
         <br />
+
         <div className={styles.section}>
           {searchResults.length <= 0
             ? rankingWithThumbnail?.map((novel) => (

@@ -1,11 +1,13 @@
 import { APP_NAME } from 'api/@constants';
-import type { NovelBodyEntity } from 'api/@types/novel';
+import type { NovelBodyEntity, NovelInfo, RankingInfo } from 'api/@types/novel';
 import { useCatchApiErr } from 'hooks/useCatchApiErr';
 import { ArrowLeft, Github } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { UIEvent } from 'react';
 import { useEffect, useMemo, useState } from 'react';
+import type { StaticPath } from 'utils/$path';
+import { staticPath } from 'utils/$path';
 import { apiClient } from 'utils/apiClient';
 import styles from './[novelId].module.css';
 
@@ -13,6 +15,8 @@ const Home = () => {
   const [novelBody, setNovelBody] = useState<NovelBodyEntity | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [readingParagraph, setReadingParagraph] = useState(0);
+  const [rankings, setRankings] = useState<RankingInfo[]>([]);
+  const [searchResults, setSearchResults] = useState<NovelInfo[]>([]);
   const router = useRouter();
   const catchApiErr = useCatchApiErr();
 
@@ -20,6 +24,30 @@ const Home = () => {
     const novelIdParam = router.query.novelId;
     return Array.isArray(novelIdParam) ? novelIdParam[0] : novelIdParam ?? '';
   }, [router.query.novelId]);
+
+  const searchParams = useMemo(() => {
+    const searchParam = router.query.search;
+    return Array.isArray(searchParam) ? searchParam[0] : searchParam;
+  }, [router.query.search]);
+
+  const rankingWithThumbnail = useMemo(() => {
+    const filteredRankings = rankings.filter((novel) => novel.id !== novelId);
+    const remainingCount = 4 - filteredRankings.length;
+    if (remainingCount > 0 && rankings.length > 0) {
+      const additionalRankings = rankings.slice(
+        filteredRankings.length,
+        filteredRankings.length + remainingCount,
+      );
+      return [...filteredRankings, ...additionalRankings].map((novel) => ({
+        ...novel,
+        thumbnailName: `$${novel.workId}_webp` as keyof StaticPath['images']['novels'],
+      }));
+    }
+    return filteredRankings.map((novel) => ({
+      ...novel,
+      thumbnailName: `$${novel.workId}_webp` as keyof StaticPath['images']['novels'],
+    }));
+  }, [rankings, novelId]);
 
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     const target = e.currentTarget as HTMLDivElement;
@@ -49,8 +77,22 @@ const Home = () => {
       .catch(catchApiErr)
       .finally(() => setIsLoading(false));
 
+    const fetchData = async () => {
+      if (searchParams === undefined) {
+        const res = await apiClient.novels.ranking.$get({ query: { limit: 4 } });
+        setRankings(res ?? []);
+      } else {
+        const res = await apiClient.novels.search.$get({ query: { searchParams } });
+        setSearchResults(res);
+      }
+    };
+
+    fetchData()
+      .catch(catchApiErr)
+      .finally(() => setIsLoading(false));
+
     return () => setNovelBody(null);
-  }, [novelId, catchApiErr]);
+  }, [novelId, catchApiErr, searchParams]);
 
   if (isLoading || novelBody === null) return <div className={styles.loading}>Loading...</div>;
 
@@ -61,7 +103,9 @@ const Home = () => {
           <ArrowLeft size="1.2rem" />
           <span>作品一覧</span>
         </Link>
-        <h1>{APP_NAME}</h1>
+        <Link href="/">
+          <h1>{APP_NAME}</h1>
+        </Link>
         <Link href="https://github.com/ramy370612/Sakuga-AI">
           <Github size="1.2rem" />
         </Link>
@@ -79,6 +123,38 @@ const Home = () => {
             <p>{paragraph.content}</p>
           </div>
         ))}
+        <h1>{novelBody.title}を読んだ人に合う作品</h1>
+        <div className={styles.section}>
+          {searchResults.length <= 0
+            ? rankingWithThumbnail?.map((novel) => (
+                <Link key={novel.id} className={styles.novelContainer} href={`/novel/${novel.id}`}>
+                  <div className={styles.novelCard}>
+                    <div className={styles.novelImage}>
+                      <img
+                        src={staticPath.images.novels[novel.thumbnailName]}
+                        alt={`${novel.title}'s thumbnail`}
+                      />
+                    </div>
+                    <div>
+                      <h3>{novel.title}</h3>
+                      <p>{`${novel.authorSurname} ${novel.authorGivenName}`.trim()}</p>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            : searchResults.map((novel) => (
+                <Link
+                  key={novel.title}
+                  className={styles.novelContainer}
+                  href={`/novel/${novel.id}`}
+                >
+                  <div className={styles.novelCard}>
+                    <h3>{novel.title}</h3>
+                    <p>{`${novel.authorSurname} ${novel.authorGivenName}`.trim()}</p>
+                  </div>
+                </Link>
+              ))}
+        </div>
       </div>
     </div>
   );
