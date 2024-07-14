@@ -67,6 +67,8 @@ const Home = () => {
           placeholder="作品検索"
           value={searchInput}
           onChange={(e) => setSearchInput(e.currentTarget.value)}
+          onKeyDown={handleclick}
+          tabIndex={0}
         />
         <button
           className={styles.searchButton}
