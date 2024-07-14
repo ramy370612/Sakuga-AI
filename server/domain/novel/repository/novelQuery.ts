@@ -99,9 +99,40 @@ const getNovelsByAhthors = async (
   }));
 };
 
+const getNovelsByName = async (
+  tx: Prisma.TransactionClient,
+  name: string,
+): Promise<{ title: string }[]> => {
+  const orConditions = [
+    { authorSurname: { contains: name } },
+    { authorGivenName: { contains: name } },
+    { authorGivenNameReading: { contains: name } },
+    { authorSurnameReading: { contains: name } },
+    { authorGivenNameSortReading: { contains: name } },
+    { authorSurnameSortReading: { contains: name } },
+    { authorSurnameRomaji: { contains: name } },
+    { authorGivenNameRomaji: { contains: name } },
+  ];
+
+  const prismaNovels = await tx.novel.findMany({
+    where: {
+      OR: orConditions,
+    },
+    orderBy: {
+      totalAccessCount: 'desc',
+    },
+    select: {
+      title: true,
+    },
+  });
+
+  return prismaNovels;
+};
+
 export const novelQuery = {
   getNovelByWorkId,
   getNovelsByAhthors,
   getNovelsBytotalAccessCount,
   getNovelById,
+  getNovelsByName,
 };

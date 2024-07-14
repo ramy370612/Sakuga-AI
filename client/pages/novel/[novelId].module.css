@@ -82,6 +82,77 @@
   text-indent: 1rem;
 }
 
+.section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2svmin;
+}
+
+.sectionLabel {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #334;
+}
+
+.sectionLabel::after {
+  flex-grow: 1;
+  height: 2px;
+  content: '';
+  background-color: #ccd9;
+}
+
+.novelContainer {
+  display: block;
+  container-type: inline-size;
+  flex: 1 1 max(calc((100% - 4svmin) / 3), 200px);
+}
+
+.novelCard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: fit-content;
+  padding: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #fcfcfc;
+  border: solid 3px #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px #eee;
+  transition: background-color 0.2s;
+}
+
+.novelCard:hover {
+  background-color: #fffaee;
+}
+
+.novelImage {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.novelImage > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@container (min-width: 50svmin) {
+  .novelCard {
+    flex-direction: row;
+  }
+
+  .novelImage {
+    width: min(30%, 128px);
+  }
+}
+
 @media screen and (aspect-ratio <= 3 / 4) {
   .container {
     flex-direction: column;
