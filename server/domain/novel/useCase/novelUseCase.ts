@@ -32,4 +32,11 @@ export const novelUseCase = {
 
       return searchResult;
     }),
+
+  gettitle: async (name: string): Promise<{ title: string }[]> =>
+    transaction('RepeatableRead', async (tx) => {
+      const titles = await novelQuery.getNovelsByName(tx, name);
+
+      return titles;
+    }),
 };

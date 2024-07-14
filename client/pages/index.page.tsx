@@ -18,8 +18,6 @@ const Home = () => {
   const catchApiErr = useCatchApiErr();
   const { loadingElm, setLoading } = useLoading();
 
-  // `/?search=hoge` -> `['hoge']` のように、searchパラメータを配列で取得
-  // 検索するキーワードをsearchパラメータとして保持し、それをもとに検索を行う
   const searchParams = useMemo(() => {
     const searchParam = router.query.search;
     return Array.isArray(searchParam) ? searchParam[0] : searchParam;
@@ -65,6 +63,7 @@ const Home = () => {
   return (
     <div className={styles.container}>
       {loadingElm}
+
       <div>
         <Link href="/">
           <h1 className={styles.title}>{APP_NAME}</h1>
@@ -87,6 +86,7 @@ const Home = () => {
         >
           検索
         </button>
+
       </div>
       <div>
         <h2 className={styles.sectionLabel}>
