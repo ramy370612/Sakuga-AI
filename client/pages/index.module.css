@@ -8,10 +8,17 @@
   margin: 0 auto;
 }
 
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .title {
-  font-size: 3.6rem;
+  font-size: 5rem;
+  font-weight: normal;
   text-align: center;
-  background: linear-gradient(270deg, #57c7ff 0%, #1482ff 40%, #100bff 80%);
+  background: linear-gradient(270deg, #7d6b00 0%, #590000 40%, #bf933c 80%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -38,7 +45,7 @@
 }
 
 .searchInput:focus {
-  border-color: #007bff;
+  border-color: #7d6b00;
   outline: none;
 }
 
@@ -48,19 +55,19 @@
   width: fit-content;
   padding: 8px 16px;
   cursor: pointer;
-  background: #459efe;
+  background: #7d6b00;
   border: 0;
   border-radius: 8px;
   transition: background-color 0.2s;
 }
 
 .searchButton:hover {
-  background-color: #007bff;
+  background-color: #;
 }
 
 .searchButton:disabled {
   cursor: not-allowed;
-  background-color: #bfcce5;
+  background-color: #e5d7bf;
 }
 
 .section {
@@ -107,7 +114,7 @@
 }
 
 .novelCard:hover {
-  background-color: #eef6ff;
+  background-color: #fffaee;
 }
 
 .novelImage {
