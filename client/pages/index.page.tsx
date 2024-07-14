@@ -18,8 +18,6 @@ const Home = () => {
   const catchApiErr = useCatchApiErr();
   const { loadingElm, setLoading } = useLoading();
 
-  // `/?search=hoge` -> `['hoge']` のように、searchパラメータを配列で取得
-  // 検索するキーワードをsearchパラメータとして保持し、それをもとに検索を行う
   const searchParams = useMemo(() => {
     const searchParam = router.query.search;
     return Array.isArray(searchParam) ? searchParam[0] : searchParam;
@@ -57,24 +55,24 @@ const Home = () => {
   return (
     <div className={styles.container}>
       {loadingElm}
-      <div>
+      <div className={styles.header}>
         <h1 className={styles.title}>{APP_NAME}</h1>
-      </div>
-      <div className={styles.search}>
-        <input
-          className={styles.searchInput}
-          type="text"
-          placeholder="作品検索"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.currentTarget.value)}
-        />
-        <button
-          className={styles.searchButton}
-          disabled={searchInput.trim().length <= 0}
-          onClick={handleclick}
-        >
-          検索
-        </button>
+        <div className={styles.search}>
+          <input
+            className={styles.searchInput}
+            type="text"
+            placeholder="作品検索"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.currentTarget.value)}
+          />
+          <button
+            className={styles.searchButton}
+            disabled={searchInput.trim().length <= 0}
+            onClick={handleclick}
+          >
+            検索
+          </button>
+        </div>
       </div>
       <div>
         <h2 className={styles.sectionLabel}>
