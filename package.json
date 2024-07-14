@@ -43,9 +43,5 @@
   },
   "engines": {
     "node": ">=20.0.0"
-  },
-  "dependencies": {
-    "@fontsource/zen-old-mincho": "^5.0.13",
-    "lucide-react": "^0.408.0"
   }
 }
