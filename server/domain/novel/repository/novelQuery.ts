@@ -119,7 +119,7 @@ const getNovelsByName = async (
       OR: orConditions,
     },
     orderBy: {
-      workId: 'asc',
+      totalAccessCount: 'desc',
     },
     select: {
       title: true,
