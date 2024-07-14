@@ -4,7 +4,7 @@ import { useLoading } from 'components/loading/useLoading';
 import { useCatchApiErr } from 'hooks/useCatchApiErr';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import type { StaticPath } from 'utils/$path';
 import { staticPath } from 'utils/$path';
 import { apiClient } from 'utils/apiClient';
@@ -30,7 +30,15 @@ const Home = () => {
     }));
   }, [rankings]);
 
-  const handleclick = () => {
+  const keyHandler = (event: React.KeyboardEvent) => {
+    const key = event.key;
+    if (key === 'Enter') {
+      clickHandler();
+    }
+    return;
+  };
+
+  const clickHandler = () => {
     router.push({ query: { search: searchInput } });
   };
 
@@ -64,11 +72,12 @@ const Home = () => {
             placeholder="作品検索"
             value={searchInput}
             onChange={(e) => setSearchInput(e.currentTarget.value)}
+            onKeyDown={keyHandler}
           />
           <button
             className={styles.searchButton}
             disabled={searchInput.trim().length <= 0}
-            onClick={handleclick}
+            onClick={clickHandler}
           >
             検索
           </button>
