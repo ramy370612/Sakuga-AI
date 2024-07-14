@@ -16,7 +16,7 @@ test(GET(apiClient.novels.title), async () => {
     query: { name: '夏目' },
   });
 
-  expect(res?.[0].title).toEqual('二百十日');
+  expect(res[0].title).toEqual('二百十日');
   const nullRes = await apiClient.novels.title.$get({ query: { name: '123' } });
   expect(nullRes).not.toBeNull;
 });
