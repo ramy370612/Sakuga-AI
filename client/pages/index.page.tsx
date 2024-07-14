@@ -64,7 +64,7 @@ const Home = () => {
     <div className={styles.container}>
       {loadingElm}
       <div className={styles.header}>
-        <h1 className={styles.title}>{APP_NAME}</h1>tton>
+        <h1 className={styles.title}>{APP_NAME}</h1>
         <div className={styles.search}>
           <input
             className={styles.searchInput}
