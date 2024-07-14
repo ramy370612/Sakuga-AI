@@ -14,9 +14,11 @@ const generateAudioQuery = async (
   speaker: number,
   workId: number,
 ): Promise<VoiceEntity> => {
+  //VoiceVoxのアクセント句の区切りが「、」なので、改行と。を「、」に変換する
+  const separatedText = paragraph.content.replace(/\n/g, '、');
   const params = { speaker: speaker.toString() };
   const queryForAudioQuery = new URLSearchParams(params);
-  queryForAudioQuery.append('text', paragraph.content);
+  queryForAudioQuery.append('text', separatedText);
 
   const audioQueryResponse = await fetch(`${VOICEVOX_URL}/audio_query?${queryForAudioQuery}`, {
     method: 'POST',
