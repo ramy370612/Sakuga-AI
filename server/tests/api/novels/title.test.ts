@@ -19,5 +19,4 @@ test(GET(apiClient.novels.title), async () => {
   expect(res[0].title).toEqual('〔雨ニモマケズ〕');
   const nullRes = await apiClient.novels.title.$get({ query: { name: '123' } });
   expect(nullRes).not.toBeNull;
-  console.log(res);
 });
