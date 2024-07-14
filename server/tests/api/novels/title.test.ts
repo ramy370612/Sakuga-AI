@@ -13,10 +13,10 @@ const apiClient = api(aspida(apiAxios, { baseURL }));
 
 test(GET(apiClient.novels.title), async () => {
   const res = await apiClient.novels.title.$get({
-    query: { name: '夏目' },
+    query: { name: '宮沢' },
   });
 
-  expect(res[0].title).toEqual('二百十日');
+  expect(res[0].title).toEqual('毒もみのすきな署長さん');
   const nullRes = await apiClient.novels.title.$get({ query: { name: '123' } });
   expect(nullRes).not.toBeNull;
 });
