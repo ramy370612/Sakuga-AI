@@ -66,7 +66,9 @@ const Home = () => {
     <div className={styles.container}>
       {loadingElm}
       <div>
-        <h1 className={styles.title}>{APP_NAME}</h1>
+        <Link href="/">
+          <h1 className={styles.title}>{APP_NAME}</h1>
+        </Link>
       </div>
       <div className={styles.search}>
         <input
